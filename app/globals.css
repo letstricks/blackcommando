@@ -1,0 +1,232 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #08090c;
+  --foreground: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body, button, input, select, textarea, h1, h2, h3, h4, h5, h6, p, span, a, label {
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif !important;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* Custom Minimal Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #08090c;
+}
+::-webkit-scrollbar-thumb {
+  background: #232733;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #dc2626;
+}
+
+/* Keyframes for Smooth Floating & Parallax Effects */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(0.5deg);
+  }
+}
+
+@keyframes float-reverse {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(8px) scale(1.02);
+  }
+}
+
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.04);
+  }
+}
+
+@keyframes radar-scan {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes glow-shift {
+  0%, 100% {
+    filter: drop-shadow(0 0 15px rgba(220, 38, 38, 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 0 30px rgba(220, 38, 38, 0.6));
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-reverse {
+  animation: float-reverse 7s ease-in-out infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 4s ease-in-out infinite;
+}
+
+.animate-radar {
+  animation: radar-scan 8s linear infinite;
+  transform-origin: center center;
+}
+
+.animate-glow {
+  animation: glow-shift 4s ease-in-out infinite;
+}
+
+/* Cinematic Overlays */
+.hero-gradient-overlay {
+  background: linear-gradient(
+    90deg,
+    #08090c 0%,
+    rgba(8, 9, 12, 0.96) 46%,
+    rgba(8, 9, 12, 0.75) 72%,
+    rgba(8, 9, 12, 0.3) 100%
+  );
+}
+
+.hero-bottom-fade {
+  background: linear-gradient(180deg, transparent 40%, #08090c 100%);
+}
+
+@keyframes scanline {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(1000%);
+  }
+}
+
+@keyframes shimmer-sweep {
+  0% {
+    transform: translateX(-100%) rotate(25deg);
+  }
+  100% {
+    transform: translateX(200%) rotate(25deg);
+  }
+}
+
+@keyframes border-pulse {
+  0%, 100% {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+  50% {
+    border-color: rgba(220, 38, 38, 0.5);
+  }
+}
+
+@keyframes subtle-zoom {
+  0%, 100% {
+    transform: scale(1.02);
+  }
+  50% {
+    transform: scale(1.06);
+  }
+}
+
+.animate-scanline {
+  animation: scanline 8s linear infinite;
+}
+
+.animate-shimmer {
+  animation: shimmer-sweep 5s ease-in-out infinite;
+}
+
+.animate-border-pulse {
+  animation: border-pulse 3s ease-in-out infinite;
+}
+
+/* Tactical Crosshairs & Corner Accents */
+.tactical-corners {
+  position: relative;
+}
+.tactical-corners::before,
+.tactical-corners::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+.tactical-corners::before {
+  top: 0;
+  left: 0;
+  border-top: 2px solid #dc2626;
+  border-left: 2px solid #dc2626;
+}
+.tactical-corners::after {
+  bottom: 0;
+  right: 0;
+  border-bottom: 2px solid #dc2626;
+  border-right: 2px solid #dc2626;
+}
+.tactical-corners:hover::before,
+.tactical-corners:hover::after {
+  width: 14px;
+  height: 14px;
+  border-color: #ef4444;
+}
+
+/* Glass Panels with Razor Borders */
+.glass-panel {
+  background: rgba(12, 14, 20, 0.85);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-panel:hover {
+  border-color: rgba(220, 38, 38, 0.5);
+}
+
+/* Card Dark with Hover Lift & Smooth Transition */
+.card-dark {
+  background: rgba(14, 16, 23, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, background 0.4s ease, box-shadow 0.4s ease;
+  will-change: transform;
+}
+
+.card-dark:hover {
+  background: rgba(20, 22, 32, 0.94);
+  border-color: rgba(220, 38, 38, 0.6);
+  transform: translateY(-8px) scale(1.015);
+  box-shadow: 0 24px 48px -15px rgba(0, 0, 0, 0.9), 0 0 25px -5px rgba(220, 38, 38, 0.25);
+}
