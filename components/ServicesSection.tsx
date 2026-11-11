@@ -6,7 +6,6 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ShieldCheck,
-  Crosshair,
   Factory,
   Building2,
   CalendarCheck,
@@ -17,6 +16,7 @@ import {
   Check,
   Clock,
   FileDown,
+  ChevronDown,
 } from "lucide-react";
 import QuoteModal from "./QuoteModal";
 import { SERVICES_LIST, SITE_CONFIG } from "@/lib/site-data";
@@ -61,8 +61,7 @@ export default function ServicesSection() {
         id="services"
         className="light-surface relative bg-vanilla-100 border-b border-indigo-800/15"
       >
-        {/* PART 1: Edge-to-Edge Split Interactive Protection Index (No Nested Box Fatigue) */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20 pb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-indigo-800/12">
+        <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 pt-14 sm:pt-20 pb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-indigo-800/12">
           <div className="space-y-2">
             <p className="font-mono text-xs text-gold-600 font-semibold uppercase tracking-[0.18em]">
               Protection Programs
@@ -83,12 +82,109 @@ export default function ServicesSection() {
           </Link>
         </div>
 
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 border-b border-indigo-800/12">
-          {/* Left Hairline Interactive Index */}
+        {/* MOBILE ACCORDION VIEW (< lg): Tapping any item expands details directly inline */}
+        <div className="lg:hidden divide-y divide-indigo-800/12 border-b border-indigo-800/12">
+          {SERVICES_LIST.map((srv) => {
+            const Icon = SERVICE_ICONS[srv.num] || ShieldCheck;
+            const isOpen = selectedServiceNum === srv.num;
+            return (
+              <div
+                key={srv.num}
+                className={isOpen ? "bg-indigo-900 text-vanilla-50" : "bg-vanilla-100 text-indigo-900"}
+              >
+                <button
+                  type="button"
+                  onClick={() => setSelectedServiceNum(srv.num)}
+                  aria-expanded={isOpen}
+                  className="w-full px-5 py-4 flex items-center justify-between gap-3 text-left cursor-pointer"
+                >
+                  <div className="flex items-center gap-3.5 min-w-0">
+                    <span
+                      className={`font-mono text-xs tabular-nums shrink-0 ${
+                        isOpen ? "text-gold-400 font-bold" : "text-indigo-500"
+                      }`}
+                    >
+                      {srv.num}
+                    </span>
+                    <div className="min-w-0">
+                      <span className="font-display text-base font-bold block">
+                        {srv.title}
+                      </span>
+                      <span
+                        className={`font-mono text-[11px] block mt-0.5 ${
+                          isOpen ? "text-indigo-200" : "text-indigo-600"
+                        }`}
+                      >
+                        {srv.category} · {srv.shifts}
+                      </span>
+                    </div>
+                  </div>
+                  <ChevronDown
+                    className={`w-4 h-4 shrink-0 transition-transform duration-200 ${
+                      isOpen ? "rotate-180 text-gold-400" : "text-indigo-500"
+                    }`}
+                    aria-hidden="true"
+                  />
+                </button>
+
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.24, ease: EDITORIAL_EASE }}
+                      className="overflow-hidden"
+                    >
+                      <div className="px-5 pb-6 pt-2 space-y-4 border-t border-vanilla-100/12">
+                        <div className="inline-flex items-center gap-2 font-mono text-[11px] text-gold-300">
+                          <Icon className="w-3.5 h-3.5 text-gold-400" aria-hidden="true" />
+                          <span>{srv.idealFor}</span>
+                        </div>
+                        <p className="text-sm text-indigo-200 leading-relaxed">
+                          {srv.desc}
+                        </p>
+                        <ul className="space-y-2">
+                          {srv.deliverables.map((del) => (
+                            <li key={del} className="flex items-start gap-2.5 text-xs sm:text-sm text-vanilla-50">
+                              <Check className="w-4 h-4 text-gold-400 shrink-0 mt-0.5" strokeWidth={2.4} aria-hidden="true" />
+                              <span>{del}</span>
+                            </li>
+                          ))}
+                        </ul>
+                        <div className="flex flex-wrap gap-2.5 pt-2">
+                          <button
+                            type="button"
+                            onClick={() => setQuoteModalService(srv.title)}
+                            className="h-11 px-4 rounded-xl bg-gold-400 text-indigo-950 text-xs font-bold inline-flex items-center gap-1.5 cursor-pointer"
+                          >
+                            <span>Request Quote</span>
+                            <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
+                          </button>
+                          <a
+                            href={SITE_CONFIG.documents[0].href}
+                            download={SITE_CONFIG.documents[0].fileName}
+                            className="h-11 px-4 rounded-xl border border-vanilla-100/20 text-vanilla-50 text-xs font-semibold inline-flex items-center gap-1.5"
+                          >
+                            <FileDown className="w-3.5 h-3.5 text-gold-400" aria-hidden="true" />
+                            <span>Quotation PDF</span>
+                          </a>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* DESKTOP SPLIT VIEW (lg+): Master Index + Sticky Spec Panel */}
+        <div className="hidden lg:grid max-w-7xl mx-auto grid-cols-12 border-b border-indigo-800/12">
           <div
             role="tablist"
             aria-label="Security service index"
-            className="lg:col-span-5 divide-y divide-indigo-800/12 lg:border-r border-indigo-800/12"
+            className="col-span-5 divide-y divide-indigo-800/12 border-r border-indigo-800/12"
           >
             {SERVICES_LIST.map((srv) => {
               const isSelected = selectedServiceNum === srv.num;
@@ -121,7 +217,7 @@ export default function ServicesSection() {
                       {srv.num}
                     </span>
                     <div className="min-w-0">
-                      <span className="font-display text-sm sm:text-base font-bold block truncate">
+                      <span className="font-display text-base font-bold block truncate">
                         {srv.title}
                       </span>
                       <span
@@ -144,8 +240,7 @@ export default function ServicesSection() {
             })}
           </div>
 
-          {/* Right Flush Indigo Command Spec Panel (Zero Outer Margin Gap) */}
-          <div className="lg:col-span-7 bg-indigo-900 text-vanilla-50 p-6 sm:p-10 lg:p-12 flex flex-col justify-between">
+          <div className="col-span-7 bg-indigo-900 text-vanilla-50 p-10 lg:p-12 flex flex-col justify-between">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeService.num}
@@ -169,7 +264,7 @@ export default function ServicesSection() {
                 </div>
 
                 <div className="space-y-3">
-                  <h3 className="font-display text-3xl sm:text-4xl font-bold text-vanilla-50 tracking-tight">
+                  <h3 className="font-display text-4xl font-bold text-vanilla-50 tracking-tight">
                     {activeService.title}
                   </h3>
                   <p className="text-base text-indigo-200 leading-relaxed max-w-2xl">
@@ -177,7 +272,6 @@ export default function ServicesSection() {
                   </p>
                 </div>
 
-                {/* Hairline Divided Deliverables */}
                 <div className="border-t border-vanilla-100/12">
                   {activeService.deliverables.map((del) => (
                     <div
@@ -187,19 +281,15 @@ export default function ServicesSection() {
                       <span className="w-5 h-5 rounded-full bg-gold-400 text-indigo-950 flex items-center justify-center shrink-0">
                         <Check className="w-3 h-3" strokeWidth={2.5} aria-hidden="true" />
                       </span>
-                      <span className="text-sm sm:text-base text-vanilla-50">
-                        {del}
-                      </span>
+                      <span className="text-base text-vanilla-50">{del}</span>
                     </div>
                   ))}
                 </div>
 
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
-                  <p className="font-mono text-xs text-indigo-200">
-                    <span className="text-gold-300 uppercase">Ideal Sectors:</span>{" "}
-                    {activeService.idealFor}
-                  </p>
-                </div>
+                <p className="font-mono text-xs text-indigo-200">
+                  <span className="text-gold-300 uppercase">Ideal Sectors:</span>{" "}
+                  {activeService.idealFor}
+                </p>
 
                 <div className="flex flex-wrap items-center gap-3 pt-1">
                   <button
@@ -225,9 +315,9 @@ export default function ServicesSection() {
           </div>
         </div>
 
-        {/* PART 2: Full-Bleed Architectural 50/50 Split Band (Zero Outer Card Box) */}
+        {/* Trusted Partner Full-Bleed Architectural Split */}
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 items-stretch">
-          <div className="lg:col-span-6 relative min-h-[300px] sm:min-h-[380px] overflow-hidden lg:border-r border-indigo-800/12">
+          <div className="lg:col-span-6 relative min-h-[250px] sm:min-h-[380px] overflow-hidden lg:border-r border-indigo-800/12">
             <ParallaxMedia yRange={24} className="w-full h-full">
               <Image
                 src="/trusted-campus.jpg"
@@ -238,21 +328,14 @@ export default function ServicesSection() {
                 className="object-cover"
               />
             </ParallaxMedia>
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                background:
-                  "linear-gradient(180deg, rgba(23,25,45,0.08) 0%, rgba(23,25,45,0.42) 100%)",
-              }}
-            />
           </div>
 
-          <RevealBlock className="lg:col-span-6 p-8 sm:p-12 lg:p-14 flex flex-col justify-center space-y-6 bg-vanilla-100">
+          <RevealBlock className="lg:col-span-6 p-6 sm:p-12 lg:p-14 flex flex-col justify-center space-y-6 bg-vanilla-100">
             <div className="space-y-2">
               <span className="font-mono text-xs text-gold-600 font-semibold uppercase tracking-[0.16em] block">
                 Institutional Assurance
               </span>
-              <h3 className="font-display text-3xl sm:text-4xl font-bold text-indigo-900 leading-tight">
+              <h3 className="font-display text-2xl sm:text-4xl font-bold text-indigo-900 leading-tight">
                 Trusted Security Partner for Your Business
               </h3>
             </div>

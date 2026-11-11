@@ -23,6 +23,10 @@ html {
   color-scheme: dark;
 }
 
+section[id] {
+  scroll-margin-top: 76px;
+}
+
 body {
   background-color: var(--midnight-indigo);
   color: var(--vanilla);

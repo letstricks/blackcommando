@@ -69,8 +69,8 @@ export default function HowItWorks() {
           </span>
         </RevealBlock>
 
-        {/* Horizontal Edge-to-Edge Rail Selector */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border border-vanilla-100/15 divide-y sm:divide-y-0 sm:divide-x divide-vanilla-100/15">
+        {/* Horizontal Edge-to-Edge Rail Selector (2x2 compact on mobile, 4-col on desktop) */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 border border-vanilla-100/15 gap-px bg-vanilla-100/15">
           {steps.map((step, idx) => {
             const isSelected = idx === activeStep;
             return (
@@ -78,10 +78,10 @@ export default function HowItWorks() {
                 key={step.num}
                 type="button"
                 onClick={() => setActiveStep(idx)}
-                className={`relative p-6 text-left transition-colors cursor-pointer ${
+                className={`relative p-4 sm:p-6 text-left transition-colors cursor-pointer ${
                   isSelected
                     ? "bg-indigo-800 text-vanilla-50"
-                    : "bg-transparent hover:bg-indigo-900/50 text-indigo-200"
+                    : "bg-indigo-950 hover:bg-indigo-900/70 text-indigo-200"
                 }`}
               >
                 {isSelected && (

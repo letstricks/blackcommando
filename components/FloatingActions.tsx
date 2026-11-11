@@ -16,7 +16,7 @@ export default function FloatingActions() {
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45, delay: 0.35, ease: EDITORIAL_EASE }}
-        className="fixed bottom-4 right-4 z-40 flex flex-col items-end gap-2.5"
+        className="fixed bottom-3 right-3 sm:bottom-4 sm:right-4 z-40 flex flex-col items-end gap-2"
       >
         <motion.button
           type="button"
@@ -24,7 +24,7 @@ export default function FloatingActions() {
           whileTap={{ scale: 0.97 }}
           transition={{ duration: 0.16, ease: EDITORIAL_EASE }}
           onClick={() => setIsQuoteOpen(true)}
-          className="h-10 px-4 rounded-xl bg-indigo-900/90 backdrop-blur-xl border border-gold-400/45 text-vanilla-50 text-xs font-semibold shadow-2xl inline-flex items-center gap-2 cursor-pointer"
+          className="hidden sm:inline-flex h-10 px-4 rounded-xl bg-indigo-900/90 backdrop-blur-xl border border-gold-400/45 text-vanilla-50 text-xs font-semibold shadow-2xl items-center gap-2 cursor-pointer"
         >
           <ShieldCheck className="w-4 h-4 text-gold-400" strokeWidth={1.6} aria-hidden="true" />
           <span>Get Free Assessment</span>

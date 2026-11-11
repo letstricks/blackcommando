@@ -48,8 +48,8 @@ export default function Navbar() {
       <header
         className={`sticky top-0 z-50 transition-all duration-300 ${
           scrolled
-            ? "bg-indigo-950/78 backdrop-blur-xl border-b border-vanilla-100/15 shadow-2xl"
-            : "bg-indigo-800/80 backdrop-blur-lg border-b border-vanilla-100/10"
+            ? "bg-indigo-950/90 backdrop-blur-xl border-b border-vanilla-100/15 shadow-2xl"
+            : "bg-indigo-800/85 backdrop-blur-lg border-b border-vanilla-100/10"
         }`}
       >
         {/* Top Scroll Progress Beam */}

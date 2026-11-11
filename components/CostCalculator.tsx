@@ -76,7 +76,7 @@ export default function CostCalculator() {
 
       <div className="relative z-10 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 items-stretch">
         {/* Left Seamless Control Surface */}
-        <RevealBlock className="lg:col-span-7 px-6 sm:px-10 lg:px-12 py-16 sm:py-24 space-y-10 lg:border-r border-vanilla-100/12">
+        <RevealBlock className="lg:col-span-7 px-5 sm:px-10 lg:px-12 py-12 sm:py-24 space-y-8 sm:space-y-10 lg:border-r border-vanilla-100/12">
           <div className="space-y-3">
             <p className="font-mono text-xs text-gold-300 tracking-[0.16em] uppercase inline-flex items-center gap-2">
               <Calculator className="w-3.5 h-3.5 text-gold-400" strokeWidth={1.6} aria-hidden="true" />
@@ -130,7 +130,7 @@ export default function CostCalculator() {
             <span className="font-mono text-xs text-gold-300 uppercase tracking-wider block">
               02 · Shift Rotation Schedule
             </span>
-            <div className="grid grid-cols-3 border border-vanilla-100/15 divide-x divide-vanilla-100/15 rounded-xl overflow-hidden">
+            <div className="grid grid-cols-1 sm:grid-cols-3 border border-vanilla-100/15 divide-y sm:divide-y-0 sm:divide-x divide-vanilla-100/15 rounded-xl overflow-hidden">
               {SHIFT_OPTIONS.map((opt) => {
                 const active = shiftId === opt.id;
                 return (

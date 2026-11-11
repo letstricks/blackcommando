@@ -45,6 +45,14 @@ module.exports = {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
       },
+      opacity: {
+        8: "0.08",
+        12: "0.12",
+        18: "0.18",
+        78: "0.78",
+        88: "0.88",
+        92: "0.92",
+      },
     },
   },
   plugins: [],

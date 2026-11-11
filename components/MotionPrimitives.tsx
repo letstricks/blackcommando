@@ -70,7 +70,7 @@ export function RevealBlock({
     <motion.div
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: 0.08 }}
+      viewport={{ once: true, amount: "some" }}
       custom={delay}
       variants={revealVariants}
       className={className}
@@ -91,7 +91,7 @@ export function StaggerGrid({
     <motion.div
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: 0.05 }}
+      viewport={{ once: true, amount: "some" }}
       variants={staggerContainerVariants}
       className={className}
     >
@@ -130,7 +130,7 @@ export function SplitHeadline({
   immediate?: boolean;
 }) {
   const ref = useRef<HTMLHeadingElement>(null);
-  const isInView = useInView(ref, { once: true, amount: 0.05 });
+  const isInView = useInView(ref, { once: true, amount: "some" });
   const prefersReduced = useReducedMotion();
   const shouldReveal = (immediate ?? Tag === "h1") || isInView;
   const words = text.split(" ");
@@ -148,18 +148,18 @@ export function SplitHeadline({
       {words.map((word, idx) => (
         <span
           key={`${word}-${idx}`}
-          className="inline-block overflow-hidden align-bottom py-[0.07em] -my-[0.07em] mr-[0.25em]"
+          className="inline-block overflow-hidden align-bottom py-[0.12em] -my-[0.12em] mr-[0.25em]"
         >
           <motion.span
-            initial={{ y: "72%", opacity: 0 }}
+            initial={{ y: "36%", opacity: 0 }}
             animate={
               shouldReveal
                 ? { y: "0%", opacity: 1 }
-                : { y: "72%", opacity: 0 }
+                : { y: "36%", opacity: 0 }
             }
             transition={{
-              duration: 0.5,
-              delay: Math.min(idx * 0.045, 0.28),
+              duration: 0.36,
+              delay: Math.min(idx * 0.032, 0.16),
               ease: EDITORIAL_EASE,
             }}
             className="inline-block will-change-transform"

@@ -92,9 +92,9 @@ export default function IndustriesSection() {
                   type="button"
                   onClick={() => setActiveIdx(idx)}
                   aria-expanded={isOpen}
-                  className="w-full px-6 sm:px-10 py-6 flex items-center justify-between gap-6 text-left cursor-pointer"
+                  className="w-full px-5 sm:px-10 py-5 sm:py-6 flex items-center justify-between gap-4 sm:gap-6 text-left cursor-pointer"
                 >
-                  <div className="flex items-center gap-6 min-w-0">
+                  <div className="flex items-center gap-4 sm:gap-6 min-w-0">
                     <span
                       className={`font-mono text-sm font-bold tabular-nums shrink-0 ${
                         isOpen ? "text-gold-400" : "text-indigo-500"
@@ -102,7 +102,7 @@ export default function IndustriesSection() {
                     >
                       {ind.num}
                     </span>
-                    <h3 className="font-display text-xl sm:text-2xl font-bold truncate">
+                    <h3 className="font-display text-lg sm:text-2xl font-bold leading-snug">
                       {ind.title}
                     </h3>
                   </div>
@@ -127,7 +127,7 @@ export default function IndustriesSection() {
                       transition={{ duration: 0.25, ease: EDITORIAL_EASE }}
                       className="overflow-hidden"
                     >
-                      <div className="px-6 sm:px-10 pb-7 pl-16 sm:pl-24 flex flex-col sm:flex-row sm:items-center justify-between gap-6 border-t border-vanilla-100/10 pt-5">
+                      <div className="px-5 sm:px-10 pb-6 sm:pb-7 sm:pl-24 flex flex-col sm:flex-row sm:items-center justify-between gap-5 border-t border-vanilla-100/10 pt-4 sm:pt-5">
                         <p className="text-sm sm:text-base text-indigo-200 leading-relaxed max-w-2xl">
                           {ind.desc}
                         </p>
