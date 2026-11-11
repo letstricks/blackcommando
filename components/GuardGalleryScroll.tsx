@@ -2,81 +2,24 @@
 
 import React, { useRef, useState } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, ShieldAlert, Radio, ShieldCheck, Award } from "lucide-react";
+import { motion } from "framer-motion";
+import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import QuoteModal from "./QuoteModal";
+import { GUARD_PROFILES } from "@/lib/site-data";
+import { RevealBlock, EDITORIAL_EASE } from "./MotionPrimitives";
 
 export default function GuardGalleryScroll() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
-  const [selectedRole, setSelectedRole] = useState("Armed Security Guard");
-
-  const guardProfiles = [
-    {
-      id: "armed",
-      title: "Armed Security Guard",
-      code: "ROLE: ARMED-01",
-      badge: "ARMED PROTECTION",
-      badgeColor: "bg-red-600/20 text-red-400 border-red-600/40",
-      icon: ShieldAlert,
-      image: "/guard-armed.jpg",
-      specs: [
-        "Statutory Firearms License",
-        "Cash Transit & High-Value Escort",
-        "100% Police Verified Records",
-      ],
-      desc: "Specially trained and licensed armed personnel for banks, cash replenishment convoys, jewelry hubs, and high-risk industrial facilities.",
-    },
-    {
-      id: "radio",
-      title: "Tactical Patrol & Comms Officer",
-      code: "ROLE: COMMS-02",
-      badge: "24/7 WIRELESS LINK",
-      badgeColor: "bg-amber-600/20 text-amber-400 border-amber-600/40",
-      icon: Radio,
-      image: "/guard-radio.jpg",
-      specs: [
-        "Direct 24/7 Control Room Comms",
-        "Hourly Electronic Clock-In",
-        "Rapid Backup Dispatch Protocol",
-      ],
-      desc: "Equipped with two-way VHF/UHF wireless transceivers maintaining constant contact with our central control room in Tiruppur.",
-    },
-    {
-      id: "attention",
-      title: "Commercial & Industrial Guard",
-      code: "ROLE: STATIC-03",
-      badge: "POST DISCIPLINE",
-      badgeColor: "bg-blue-600/20 text-blue-400 border-blue-600/40",
-      icon: ShieldCheck,
-      image: "/guard-attention.jpg",
-      specs: [
-        "Material Gate-Pass Verification",
-        "Strict Visitor Register Control",
-        "Fire Safety & First Aid Trained",
-      ],
-      desc: "Vigilant front-gate security, worker shift frisking, vehicle inspection, and perimeter surveillance for factories and commercial campuses.",
-    },
-    {
-      id: "salute",
-      title: "Executive Protocol & Corporate Guard",
-      code: "ROLE: PROTOCOL-04",
-      badge: "CEREMONIAL SALUTE",
-      badgeColor: "bg-emerald-600/20 text-emerald-400 border-emerald-600/40",
-      icon: Award,
-      image: "/guard-salute.jpg",
-      specs: [
-        "Front-Desk Concierge Etiquette",
-        "VIP Executive Movement Escort",
-        "Spotless Uniform Discipline",
-      ],
-      desc: "Courteous, dignified, and alert presence at corporate corporate office entrances, hospital main gates, and executive suites.",
-    },
-  ];
+  const [selectedRole, setSelectedRole] = useState<string>(GUARD_PROFILES[0].title);
 
   const scroll = (direction: "left" | "right") => {
     if (scrollContainerRef.current) {
       const scrollAmount = direction === "left" ? -380 : 380;
-      scrollContainerRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
+      scrollContainerRef.current.scrollBy({
+        left: scrollAmount,
+        behavior: "smooth",
+      });
     }
   };
 
@@ -86,122 +29,111 @@ export default function GuardGalleryScroll() {
   };
 
   return (
-    <section className="py-24 bg-[#08090c] border-t border-white/5 font-sans relative overflow-hidden">
-      {/* Background Ambience */}
-      <div className="absolute top-1/2 -right-40 w-96 h-96 bg-red-600/5 rounded-full blur-3xl pointer-events-none" />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
-        {/* Section Header with Left/Right Scroll Controls */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-          <div>
-            <p className="text-xs sm:text-sm uppercase tracking-widest text-red-500 font-bold mb-2 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-red-600 animate-ping" />
-              Real Personnel // Field Ready
+    <section className="py-20 sm:py-24 bg-indigo-800 border-b border-vanilla-100/10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <RevealBlock className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+          <div className="space-y-3 max-w-2xl">
+            <p className="font-mono text-xs text-indigo-300 tracking-wide">
+              02 · Uniformed Cadre
             </p>
-            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-tight uppercase">
-              Security Force In Uniform
+            <h2 className="font-display text-3xl sm:text-5xl font-semibold tracking-tight text-vanilla-100 leading-[1.1]">
+              Security force in uniform
             </h2>
+            <p className="text-sm sm:text-base text-indigo-200 leading-relaxed">
+              Verified personnel deployed across industrial gates, control desks,
+              and corporate lobbies in clean standard-issue uniforms.
+            </p>
           </div>
 
-          <div className="flex items-center gap-4">
-            <span className="text-xs text-neutral-400 font-mono hidden sm:inline-block">
-              SWIPE / SCROLL →
-            </span>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => scroll("left")}
-                aria-label="Scroll left"
-                className="w-11 h-11 rounded-full bg-neutral-900 border border-white/15 text-white flex items-center justify-center hover:bg-red-600 hover:border-red-600 transition-colors shadow-lg active:scale-95"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-              <button
-                onClick={() => scroll("right")}
-                aria-label="Scroll right"
-                className="w-11 h-11 rounded-full bg-neutral-900 border border-white/15 text-white flex items-center justify-center hover:bg-red-600 hover:border-red-600 transition-colors shadow-lg active:scale-95"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
-            </div>
+          <div className="flex items-center gap-2 shrink-0">
+            <motion.button
+              type="button"
+              whileTap={{ scale: 0.96 }}
+              transition={{ duration: 0.14, ease: EDITORIAL_EASE }}
+              onClick={() => scroll("left")}
+              aria-label="Scroll guard profiles left"
+              className="w-11 h-11 rounded-lg bg-indigo-900 border border-vanilla-100/20 text-vanilla-100 flex items-center justify-center hover:bg-indigo-700 transition-colors duration-150 cursor-pointer"
+            >
+              <ChevronLeft className="w-5 h-5" strokeWidth={1.5} aria-hidden="true" />
+            </motion.button>
+            <motion.button
+              type="button"
+              whileTap={{ scale: 0.96 }}
+              transition={{ duration: 0.14, ease: EDITORIAL_EASE }}
+              onClick={() => scroll("right")}
+              aria-label="Scroll guard profiles right"
+              className="w-11 h-11 rounded-lg bg-indigo-900 border border-vanilla-100/20 text-vanilla-100 flex items-center justify-center hover:bg-indigo-700 transition-colors duration-150 cursor-pointer"
+            >
+              <ChevronRight className="w-5 h-5" strokeWidth={1.5} aria-hidden="true" />
+            </motion.button>
           </div>
-        </div>
+        </RevealBlock>
 
-        {/* Scrollable Cards Container */}
         <div
           ref={scrollContainerRef}
-          className="flex gap-6 overflow-x-auto pb-8 pt-2 scroll-smooth snap-x snap-mandatory scrollbar-none focus:outline-none"
+          className="flex gap-6 overflow-x-auto pb-4 scroll-smooth snap-x snap-mandatory"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
-          {guardProfiles.map((guard) => {
-            const Icon = guard.icon;
-            return (
-              <div
-                key={guard.id}
-                className="snap-start shrink-0 w-[300px] sm:w-[340px] md:w-[370px] rounded-3xl bg-gradient-to-b from-[#13151f] to-[#0a0b10] border border-white/10 hover:border-red-600/70 transition-all duration-400 shadow-2xl overflow-hidden flex flex-col justify-between group"
-              >
-                {/* Photo Display with High Quality Portrait Frame */}
-                <div className="relative h-[340px] sm:h-[380px] w-full bg-gradient-to-b from-neutral-800 to-black overflow-hidden flex items-center justify-center">
+          {GUARD_PROFILES.map((guard) => (
+            <article
+              key={guard.id}
+              className="snap-start shrink-0 w-[300px] sm:w-[330px] rounded-2xl bg-indigo-900 border border-vanilla-100/12 overflow-hidden flex flex-col justify-between"
+            >
+              {/* Clean unobstructed portrait photo frame — zero badges or overlay text */}
+              <div className="p-3 pb-0">
+                <div className="relative h-[340px] w-full rounded-xl bg-vanilla-50 overflow-hidden">
                   <Image
                     src={guard.image}
-                    alt={guard.title}
+                    alt={`${guard.title} in clean blue uniform`}
                     fill
-                    sizes="(max-width: 768px) 320px, 370px"
-                    className="object-cover object-top group-hover:scale-105 transition-transform duration-700 brightness-95 group-hover:brightness-105"
+                    sizes="(max-width: 768px) 300px, 330px"
+                    className="object-cover object-top"
                   />
-                  {/* Subtle vignette fade at the bottom of the photo */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#13151f] via-transparent to-black/20" />
-
-                  {/* Top Badge Overlay */}
-                  <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-10">
-                    <span className={`text-[10px] font-bold px-3 py-1 rounded-full border backdrop-blur-md uppercase tracking-wider ${guard.badgeColor}`}>
-                      {guard.badge}
-                    </span>
-                    <span className="text-[10px] font-mono text-neutral-300 px-2.5 py-1 rounded-md bg-black/70 backdrop-blur-md border border-white/10">
-                      {guard.code}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Content Dossier */}
-                <div className="p-6 sm:p-7 space-y-4 flex-grow flex flex-col justify-between">
-                  <div>
-                    <div className="flex items-center gap-2 mb-2 text-red-500">
-                      <Icon className="w-4 h-4" />
-                      <span className="text-xs font-bold uppercase tracking-wider">Verified Personnel</span>
-                    </div>
-
-                    <h3 className="text-xl font-black text-white uppercase tracking-tight group-hover:text-red-400 transition-colors">
-                      {guard.title}
-                    </h3>
-
-                    <p className="text-xs sm:text-sm text-neutral-400 font-light leading-relaxed mt-2">
-                      {guard.desc}
-                    </p>
-
-                    {/* Specs List */}
-                    <div className="space-y-1.5 pt-3 border-t border-white/10 mt-4 text-[11px] font-medium text-neutral-300">
-                      {guard.specs.map((spec, sIdx) => (
-                        <div key={sIdx} className="flex items-center gap-2">
-                          <span className="w-1.5 h-1.5 rounded-full bg-red-600" />
-                          <span>{spec}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* CTA Button */}
-                  <button
-                    onClick={() => handleOpenQuote(guard.title)}
-                    className="w-full mt-4 py-3 rounded-xl bg-white/[0.04] hover:bg-red-600 text-white border border-white/15 hover:border-red-600 text-xs font-bold uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 group/btn"
-                  >
-                    <span>Request Deployment</span>
-                    <span className="group-hover/btn:translate-x-1 transition-transform">→</span>
-                  </button>
                 </div>
               </div>
-            );
-          })}
+
+              {/* Structured Role Dossier Below Photo */}
+              <div className="p-6 space-y-4 flex-grow flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between text-xs font-mono text-indigo-400 mb-2">
+                    <span className="tabular-nums">{guard.num}</span>
+                    <span>{guard.category}</span>
+                  </div>
+
+                  <h3 className="font-display text-lg font-semibold text-vanilla-100 leading-snug">
+                    {guard.title}
+                  </h3>
+
+                  <p className="text-sm text-indigo-300 leading-relaxed mt-2">
+                    {guard.desc}
+                  </p>
+
+                  <ul className="space-y-1.5 pt-4 mt-4 border-t border-vanilla-100/10 text-xs text-indigo-200">
+                    {guard.specs.map((spec) => (
+                      <li key={spec} className="flex items-center gap-2">
+                        <span
+                          className="w-1.5 h-1.5 rounded-full bg-vanilla-100/70 shrink-0"
+                          aria-hidden="true"
+                        />
+                        <span>{spec}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <motion.button
+                  type="button"
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ duration: 0.14, ease: EDITORIAL_EASE }}
+                  onClick={() => handleOpenQuote(guard.title)}
+                  className="w-full h-11 rounded-lg bg-indigo-800 hover:bg-vanilla-100 text-vanilla-100 hover:text-indigo-800 border border-vanilla-100/20 text-sm font-medium transition-colors duration-150 flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  <span>Request Deployment</span>
+                  <ArrowRight className="w-4 h-4" strokeWidth={1.5} aria-hidden="true" />
+                </motion.button>
+              </div>
+            </article>
+          ))}
         </div>
       </div>
 

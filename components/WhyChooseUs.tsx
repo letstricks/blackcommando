@@ -1,81 +1,93 @@
+"use client";
+
 import React from "react";
+import { Check } from "lucide-react";
+import { RevealBlock, StaggerGrid, StaggerItem } from "./MotionPrimitives";
 
 export default function WhyChooseUs() {
   const points = [
     {
       num: "01",
       title: "Verified Personnel",
-      desc: "Background-checked and police-verified guards with complete permanent identity records.",
+      desc: "Background-checked and police-verified guards with permanent identity documentation on file.",
     },
     {
       num: "02",
-      title: "Professional Training",
-      desc: "Discipline, industrial fire safety, first aid CPR, and crisis emergency response.",
+      title: "Structured Training",
+      desc: "Post discipline, industrial fire safety, first-aid readiness, and emergency response drills.",
     },
     {
       num: "03",
       title: "Supervised Teams",
-      desc: "Randomized night inspections, electronic patrol logging, and daily shift reporting.",
+      desc: "Randomized night inspections, shift log verification, and daily supervisory reporting.",
     },
     {
       num: "04",
       title: "24/7 Control Room",
-      desc: "Always reachable centralized command center with immediate response dispatch.",
+      desc: "Always reachable Tiruppur command desk with rapid replacement and relief deployment.",
     },
     {
       num: "05",
-      title: "Custom Solutions",
-      desc: "Security plans engineered around your specific site risks, not a generic template.",
+      title: "Tailored Post Orders",
+      desc: "Security deployment plans engineered around your gate volume, shifts, and perimeter risk.",
     },
     {
       num: "06",
-      title: "Transparent Pricing",
-      desc: "Clear contractual terms, statutory compliance (PF/ESI), and zero hidden costs.",
+      title: "Transparent Contracts",
+      desc: "Clear monthly rate schedules, statutory PF/ESI compliance, and documented service terms.",
     },
   ];
 
   return (
-    <section id="why-choose-us" className="py-24 bg-[#08090c] border-t border-white/5 font-sans">
+    <section
+      id="why-choose-us"
+      className="py-20 sm:py-24 bg-indigo-800 border-b border-vanilla-100/10"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-16">
-          <p className="text-sm uppercase tracking-widest text-red-500 font-bold mb-2">
-            The Advantage
+        <RevealBlock className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+          <div className="space-y-3 max-w-2xl">
+            <p className="font-mono text-xs text-indigo-300 tracking-wide">
+              06 · Operational Standards
+            </p>
+            <h2 className="font-display text-3xl sm:text-5xl font-semibold tracking-tight text-vanilla-100 leading-[1.1]">
+              Why clients rely on our force
+            </h2>
+          </div>
+          <p className="text-sm sm:text-base text-indigo-200 max-w-md leading-relaxed">
+            Built for long-term industrial and commercial continuity with strict
+            accountability at every shift change.
           </p>
-          <h2 className="text-4xl sm:text-6xl font-black tracking-tight text-white leading-tight uppercase">
-            Why Choose Us
-          </h2>
-        </div>
+        </RevealBlock>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
+        <StaggerGrid className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {points.map((pt) => (
-            <div
+            <StaggerItem
               key={pt.num}
-              className="card-dark tactical-corners rounded-2xl p-8 flex flex-col justify-between hover:border-red-600/70 transition-all duration-300 relative overflow-hidden group"
+              className="rounded-xl bg-indigo-900 border border-vanilla-100/12 p-6 sm:p-7 flex flex-col justify-between"
             >
-              <div className="absolute top-0 right-0 w-28 h-28 bg-red-600/5 rounded-full blur-2xl group-hover:bg-red-600/15 transition-all pointer-events-none" />
-
               <div>
-                <span className="text-3xl sm:text-4xl font-black text-red-500 group-hover:scale-110 transition-transform origin-left block mb-4">
-                  {pt.num}
-                </span>
-                <h3 className="text-xl font-bold text-white tracking-tight mb-2.5 group-hover:text-red-400 transition-colors">
+                <div className="flex items-center justify-between mb-5">
+                  <span className="font-mono text-sm font-medium text-indigo-300 tabular-nums">
+                    {pt.num}
+                  </span>
+                  <div className="w-7 h-7 rounded-md bg-indigo-800 border border-vanilla-100/15 flex items-center justify-center text-vanilla-100">
+                    <Check className="w-3.5 h-3.5" strokeWidth={1.75} aria-hidden="true" />
+                  </div>
+                </div>
+                <h3 className="font-display text-lg font-semibold text-vanilla-100 mb-2">
                   {pt.title}
                 </h3>
-                <p className="text-sm text-neutral-400 leading-relaxed font-light">
+                <p className="text-sm text-indigo-300 leading-relaxed">
                   {pt.desc}
                 </p>
               </div>
 
-              <div className="mt-8 pt-4 border-t border-white/10 flex items-center justify-between text-xs text-neutral-400 group-hover:text-white font-medium transition-colors">
-                <span className="flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-red-600 group-hover:animate-ping" />
-                  Guaranteed Standard
-                </span>
-                <span className="text-red-500 font-bold group-hover:translate-x-1 transition-transform">✓</span>
+              <div className="mt-6 pt-4 border-t border-vanilla-100/10 text-xs font-mono text-indigo-400">
+                ISO 9001:2015 Standard
               </div>
-            </div>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerGrid>
       </div>
     </section>
   );

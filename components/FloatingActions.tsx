@@ -1,55 +1,54 @@
 "use client";
 
 import React, { useState } from "react";
-import { MessageCircle, Phone } from "lucide-react";
+import { motion } from "framer-motion";
+import { MessageCircle, Phone, ClipboardList } from "lucide-react";
 import QuoteModal from "./QuoteModal";
+import { SITE_CONFIG, buildWhatsappUrl } from "@/lib/site-data";
+import { EDITORIAL_EASE } from "./MotionPrimitives";
 
 export default function FloatingActions() {
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
 
-  const whatsappText = encodeURIComponent(
+  const whatsappHref = buildWhatsappUrl(
     "Hello Black Cat Commando Security Force, I would like to inquire about security services."
   );
 
   return (
     <>
-      <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-5 z-40 flex flex-col items-end gap-2.5 sm:gap-3 select-none font-sans">
-        {/* Floating Quick Assessment Pill (Desktop & Tablet only to avoid interrupting mobile viewport) */}
-        <button
+      <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 flex flex-col items-end gap-2.5">
+        <motion.button
+          type="button"
+          whileTap={{ scale: 0.98 }}
+          transition={{ duration: 0.14, ease: EDITORIAL_EASE }}
           onClick={() => setIsQuoteOpen(true)}
-          className="hidden md:inline-flex relative overflow-hidden group px-6 py-3 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm uppercase tracking-wider shadow-2xl shadow-red-600/50 hover:shadow-red-600/80 transition-all hover:scale-105 active:scale-95"
+          className="hidden md:inline-flex h-11 px-4 rounded-lg bg-vanilla-100 hover:bg-vanilla-50 text-indigo-800 border border-indigo-800/20 font-semibold text-xs items-center gap-2 shadow-lg transition-colors duration-150 cursor-pointer"
         >
-          {/* Shimmer Effect */}
-          <span className="absolute inset-0 w-1/2 h-full bg-white/25 skew-x-12 -translate-x-full group-hover:translate-x-[300%] transition-transform duration-700 pointer-events-none" />
-          <span className="relative z-10 flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-white animate-ping" />
-            Get Free Assessment
-          </span>
-        </button>
+          <ClipboardList className="w-4 h-4" strokeWidth={1.5} aria-hidden="true" />
+          <span>Get Free Assessment</span>
+        </motion.button>
 
-        {/* WhatsApp Button */}
-        <a
-          href={`https://wa.me/919440334046?text=${whatsappText}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="WhatsApp"
-          className="relative flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white shadow-xl shadow-emerald-600/30 transition-all hover:scale-110 active:scale-95"
-        >
-          <span className="absolute -top-0.5 -right-0.5 flex h-2.5 w-2.5 sm:h-3 sm:w-3">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2.5 w-2.5 sm:h-3 sm:w-3 bg-emerald-400"></span>
-          </span>
-          <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6 fill-white" />
-        </a>
+        <div className="flex items-center gap-2">
+          <a
+            href={SITE_CONFIG.contact.primaryPhoneHref}
+            aria-label={`Call ${SITE_CONFIG.contact.primaryPhoneDisplay}`}
+            title={`Call ${SITE_CONFIG.contact.primaryPhoneDisplay}`}
+            className="w-11 h-11 rounded-lg bg-indigo-900 hover:bg-indigo-700 border border-vanilla-100/20 text-vanilla-100 flex items-center justify-center shadow-lg transition-colors duration-150"
+          >
+            <Phone className="w-4 h-4" strokeWidth={1.5} aria-hidden="true" />
+          </a>
 
-        {/* Call Button */}
-        <a
-          href="tel:+919440334046"
-          aria-label="Call"
-          className="flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-[#12141d]/90 backdrop-blur-sm border border-white/20 text-white shadow-xl hover:bg-red-600 hover:border-red-600 transition-all hover:scale-105 active:scale-95"
-        >
-          <Phone className="w-4 h-4" />
-        </a>
+          <a
+            href={whatsappHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="WhatsApp Operations"
+            title="WhatsApp Operations"
+            className="w-11 h-11 rounded-lg bg-indigo-950 hover:bg-indigo-700 border border-vanilla-100/25 text-status-live flex items-center justify-center shadow-lg transition-colors duration-150"
+          >
+            <MessageCircle className="w-5 h-5" strokeWidth={1.5} aria-hidden="true" />
+          </a>
+        </div>
       </div>
 
       <QuoteModal isOpen={isQuoteOpen} onClose={() => setIsQuoteOpen(false)} />

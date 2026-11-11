@@ -2,14 +2,16 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import { Send, CheckCircle2 } from "lucide-react";
+import { SITE_CONFIG } from "@/lib/site-data";
+import { RevealBlock, EDITORIAL_EASE } from "./MotionPrimitives";
 
 export default function CareersSection() {
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
     age: "",
-    experience: "Fresher",
     isExServiceman: "No",
     location: "",
     role: "Security Guard",
@@ -23,192 +25,251 @@ export default function CareersSection() {
     setTimeout(() => {
       setLoading(false);
       setSubmitted(true);
-    }, 600);
+    }, 500);
   };
 
   return (
-    <section id="careers" className="py-24 bg-[#0b0c10] border-t border-white/5 font-sans">
+    <section
+      id="careers"
+      className="py-20 sm:py-24 bg-indigo-800 border-b border-vanilla-100/10"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
           {/* Left Narrative */}
-          <div className="lg:col-span-6 space-y-6">
-            <p className="text-xs uppercase tracking-widest text-red-500 font-bold">
-              Careers & Recruitment
-            </p>
+          <RevealBlock className="lg:col-span-6 space-y-6">
+            <div className="space-y-3">
+              <p className="font-mono text-xs text-indigo-300 tracking-wide">
+                Careers & Recruitment
+              </p>
+              <h2 className="font-display text-3xl sm:text-5xl font-semibold tracking-tight text-vanilla-100 leading-[1.1]">
+                Join our security force
+              </h2>
+              <p className="text-sm sm:text-base text-indigo-200 leading-relaxed">
+                We recruit disciplined, physically fit candidates for static
+                guard, armed guard, and supervisory postings across Tiruppur and
+                nearby industrial belts.
+              </p>
+            </div>
 
-            <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight uppercase">
-              Join Our Force
-            </h2>
-
-            <p className="text-sm sm:text-base text-neutral-300 font-light leading-relaxed">
-              We hire disciplined, fit, and dedicated individuals. Build a respectable, stable career in private security with complete training, free uniforms, and PF/ESI coverage.
-            </p>
-
-            {/* Squad Parade Image Card */}
-            <div className="relative rounded-2xl overflow-hidden border border-white/10 group h-52 sm:h-64 shadow-2xl">
+            <div className="relative rounded-xl overflow-hidden border border-vanilla-100/15 h-56 bg-indigo-900">
               <Image
                 src="/guard-squad.jpg"
-                alt="Security Force Muster and Training"
+                alt="Security guard training and muster parade"
                 fill
-                className="object-cover group-hover:scale-105 transition-transform duration-700 brightness-90 group-hover:brightness-100"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#08090c] via-[#08090c]/40 to-transparent" />
-              <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
+              <div className="absolute inset-0 bg-gradient-to-t from-indigo-950/90 via-indigo-950/35 to-transparent" />
+              <div className="absolute bottom-4 left-5 right-5 flex items-end justify-between gap-4">
                 <div>
-                  <span className="text-[11px] font-bold text-red-500 uppercase tracking-wider block">
-                    Uniforms & Training Provided
+                  <span className="font-mono text-[11px] text-indigo-200 block">
+                    Uniforms & Drilling Provided
                   </span>
-                  <h4 className="text-sm sm:text-base font-bold text-white uppercase tracking-tight">
-                    Disciplined Career with Statutory Benefits
-                  </h4>
+                  <h3 className="font-display text-base font-semibold text-vanilla-100 mt-0.5">
+                    Stable postings with statutory PF & ESI coverage
+                  </h3>
                 </div>
-                <span className="text-xs px-3 py-1 rounded-full bg-red-600/20 text-red-400 border border-red-600/40 font-mono font-bold">
-                  NOW HIRING
+                <span className="font-mono text-xs text-status-live bg-indigo-950/85 border border-vanilla-100/20 px-2.5 py-1 rounded-md">
+                  Hiring
                 </span>
               </div>
             </div>
 
-            <div className="space-y-4 pt-2 text-xs">
-              <div className="p-4 rounded-xl bg-white/[0.02] border border-white/5">
-                <h4 className="font-bold text-white uppercase tracking-wider mb-1">
-                  Training & Uniforms Provided
-                </h4>
-                <p className="text-neutral-400 font-light">
-                  Complete uniform kit, tactical belt, badges, and intensive fire safety & emergency response drilling.
+            <div className="space-y-3">
+              <div className="p-4 rounded-xl bg-indigo-900 border border-vanilla-100/12">
+                <h3 className="text-sm font-semibold text-vanilla-100 mb-1">
+                  Training & Uniform Kit
+                </h3>
+                <p className="text-xs text-indigo-300 leading-relaxed">
+                  Issued uniform kit, fire safety orientation, and post
+                  protocol onboarding before duty assignment.
                 </p>
               </div>
-
-              <div className="p-4 rounded-xl bg-white/[0.02] border border-white/5">
-                <h4 className="font-bold text-white uppercase tracking-wider mb-1">
-                  Statutory Benefits: PF & ESI
-                </h4>
-                <p className="text-neutral-400 font-light">
-                  Guaranteed on-time salary with medical insurance and social security coverage for all guards.
+              <div className="p-4 rounded-xl bg-indigo-900 border border-vanilla-100/12">
+                <h3 className="text-sm font-semibold text-vanilla-100 mb-1">
+                  Statutory PF & ESI Benefits
+                </h3>
+                <p className="text-xs text-indigo-300 leading-relaxed">
+                  On-time monthly salary disbursements with Provident Fund and
+                  Employees&apos; State Insurance coverage.
                 </p>
               </div>
-
-              <div className="p-4 rounded-xl bg-white/[0.02] border border-white/5">
-                <h4 className="font-bold text-white uppercase tracking-wider mb-1">
+              <div className="p-4 rounded-xl bg-indigo-900 border border-vanilla-100/12">
+                <h3 className="text-sm font-semibold text-vanilla-100 mb-1">
                   Ex-Servicemen Priority
-                </h4>
-                <p className="text-neutral-400 font-light">
-                  Fast-track recruitment and supervisory roles for ex-armed forces and paramilitary personnel.
+                </h3>
+                <p className="text-xs text-indigo-300 leading-relaxed">
+                  Direct consideration for Head Guard, Security Officer, and
+                  Field Supervisor roles for ex-armed forces personnel.
                 </p>
               </div>
             </div>
-          </div>
+          </RevealBlock>
 
           {/* Right Form */}
-          <div className="lg:col-span-6 bg-[#12141d] border border-white/10 rounded-2xl p-7 sm:p-9 shadow-xl">
-            <h3 className="text-lg font-bold text-white tracking-tight pb-3 mb-5 border-b border-white/10">
-              Quick Guard Application
+          <RevealBlock
+            delay={0.08}
+            className="lg:col-span-6 bg-indigo-900 border border-vanilla-100/15 rounded-2xl p-6 sm:p-8"
+          >
+            <h3 className="font-display text-xl font-semibold text-vanilla-100 pb-4 mb-6 border-b border-vanilla-100/12">
+              Guard Enlistment Application
             </h3>
 
             {submitted ? (
               <div className="py-10 text-center flex flex-col items-center">
-                <div className="w-12 h-12 rounded-full bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 mb-3">
-                  <CheckCircle2 className="w-7 h-7" />
+                <div className="w-12 h-12 rounded-full bg-indigo-800 border border-vanilla-100/20 flex items-center justify-center text-status-live mb-4">
+                  <CheckCircle2 className="w-6 h-6" strokeWidth={1.5} aria-hidden="true" />
                 </div>
-                <h4 className="text-base font-bold text-white">Application Received</h4>
-                <p className="text-xs text-neutral-300 mt-2 max-w-sm">
-                  Our recruitment officer will contact you for physical verification at our Tiruppur branch.
+                <h4 className="font-display text-lg font-semibold text-vanilla-100">
+                  Application Received
+                </h4>
+                <p className="text-sm text-indigo-200 mt-2 max-w-sm leading-relaxed">
+                  Our recruitment officer will contact you for document and
+                  physical verification at {SITE_CONFIG.address.line1},{" "}
+                  {SITE_CONFIG.address.city}. You can also call{" "}
+                  <strong className="text-vanilla-100 tabular-nums">
+                    {SITE_CONFIG.contact.primaryPhoneDisplay}
+                  </strong>
+                  .
                 </p>
                 <button
+                  type="button"
                   onClick={() => setSubmitted(false)}
-                  className="mt-6 px-6 py-2 rounded-full bg-red-600 text-white text-xs font-bold uppercase tracking-wider hover:bg-red-700"
+                  className="mt-6 h-10 px-5 rounded-lg bg-vanilla-100 text-indigo-800 text-xs font-semibold cursor-pointer"
                 >
-                  Submit Another
+                  Submit Another Application
                 </button>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-bold text-neutral-300 uppercase mb-1">
+                    <label
+                      htmlFor="career-name"
+                      className="block text-xs font-medium text-indigo-200 mb-1.5"
+                    >
                       Full Name *
                     </label>
                     <input
+                      id="career-name"
                       type="text"
                       required
-                      placeholder="Candidate Name"
+                      placeholder="Candidate full name"
                       value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full bg-[#08090c] border border-white/10 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-red-600"
+                      onChange={(e) =>
+                        setFormData({ ...formData, name: e.target.value })
+                      }
+                      className="w-full h-11 bg-indigo-950 border border-vanilla-100/15 rounded-lg px-3.5 text-sm text-vanilla-100 placeholder-indigo-400 focus:outline-none focus:border-vanilla-100"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-neutral-300 uppercase mb-1">
-                      Phone Number *
+                    <label
+                      htmlFor="career-phone"
+                      className="block text-xs font-medium text-indigo-200 mb-1.5"
+                    >
+                      Mobile Number *
                     </label>
                     <input
+                      id="career-phone"
                       type="tel"
                       required
-                      placeholder="+91 Mobile Number"
+                      placeholder="+91 mobile number"
                       value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      className="w-full bg-[#08090c] border border-white/10 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-red-600"
+                      onChange={(e) =>
+                        setFormData({ ...formData, phone: e.target.value })
+                      }
+                      className="w-full h-11 bg-indigo-950 border border-vanilla-100/15 rounded-lg px-3.5 text-sm text-vanilla-100 placeholder-indigo-400 focus:outline-none focus:border-vanilla-100"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-bold text-neutral-300 uppercase mb-1">
+                    <label
+                      htmlFor="career-age"
+                      className="block text-xs font-medium text-indigo-200 mb-1.5"
+                    >
                       Age *
                     </label>
                     <input
+                      id="career-age"
                       type="number"
                       min="18"
                       max="60"
                       required
-                      placeholder="e.g. 28"
+                      placeholder="28"
                       value={formData.age}
-                      onChange={(e) => setFormData({ ...formData, age: e.target.value })}
-                      className="w-full bg-[#08090c] border border-white/10 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-red-600"
+                      onChange={(e) =>
+                        setFormData({ ...formData, age: e.target.value })
+                      }
+                      className="w-full h-11 bg-indigo-950 border border-vanilla-100/15 rounded-lg px-3.5 text-sm text-vanilla-100 placeholder-indigo-400 focus:outline-none focus:border-vanilla-100"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-neutral-300 uppercase mb-1">
+                    <label
+                      htmlFor="career-city"
+                      className="block text-xs font-medium text-indigo-200 mb-1.5"
+                    >
                       Current City *
                     </label>
                     <input
+                      id="career-city"
                       type="text"
                       required
-                      placeholder="e.g. Tiruppur"
+                      placeholder="Tiruppur"
                       value={formData.location}
-                      onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                      className="w-full bg-[#08090c] border border-white/10 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-red-600"
+                      onChange={(e) =>
+                        setFormData({ ...formData, location: e.target.value })
+                      }
+                      className="w-full h-11 bg-indigo-950 border border-vanilla-100/15 rounded-lg px-3.5 text-sm text-vanilla-100 placeholder-indigo-400 focus:outline-none focus:border-vanilla-100"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-bold text-neutral-300 uppercase mb-1">
-                      Role
+                    <label
+                      htmlFor="career-role"
+                      className="block text-xs font-medium text-indigo-200 mb-1.5"
+                    >
+                      Preferred Role
                     </label>
                     <select
+                      id="career-role"
                       value={formData.role}
-                      onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                      className="w-full bg-[#08090c] border border-white/10 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-red-600"
+                      onChange={(e) =>
+                        setFormData({ ...formData, role: e.target.value })
+                      }
+                      className="w-full h-11 bg-indigo-950 border border-vanilla-100/15 rounded-lg px-3.5 text-sm text-vanilla-100 focus:outline-none focus:border-vanilla-100"
                     >
                       <option value="Security Guard">Security Guard</option>
                       <option value="Armed Guard">Armed Guard</option>
-                      <option value="Field Supervisor">Field Supervisor</option>
-                      <option value="Bouncer / VIP Escort">Bouncer / VIP Escort</option>
+                      <option value="Head Guard / Supervisor">
+                        Head Guard / Supervisor
+                      </option>
+                      <option value="Security Officer">Security Officer</option>
                     </select>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-neutral-300 uppercase mb-1">
-                      Ex-Serviceman?
+                    <label
+                      htmlFor="career-exserviceman"
+                      className="block text-xs font-medium text-indigo-200 mb-1.5"
+                    >
+                      Ex-Serviceman
                     </label>
                     <select
+                      id="career-exserviceman"
                       value={formData.isExServiceman}
-                      onChange={(e) => setFormData({ ...formData, isExServiceman: e.target.value })}
-                      className="w-full bg-[#08090c] border border-white/10 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-red-600"
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          isExServiceman: e.target.value,
+                        })
+                      }
+                      className="w-full h-11 bg-indigo-950 border border-vanilla-100/15 rounded-lg px-3.5 text-sm text-vanilla-100 focus:outline-none focus:border-vanilla-100"
                     >
                       <option value="No">No (Civilian)</option>
                       <option value="Yes">Yes (Armed Forces / Police)</option>
@@ -216,23 +277,25 @@ export default function CareersSection() {
                   </div>
                 </div>
 
-                <button
+                <motion.button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-4 rounded-full bg-red-600 hover:bg-red-700 text-white font-black text-sm uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-xl shadow-red-600/30"
+                  whileTap={{ scale: 0.985 }}
+                  transition={{ duration: 0.14, ease: EDITORIAL_EASE }}
+                  className="w-full h-12 rounded-lg bg-vanilla-100 hover:bg-vanilla-50 text-indigo-800 font-semibold text-sm flex items-center justify-center gap-2 transition-colors duration-150 disabled:opacity-50 cursor-pointer mt-2"
                 >
                   {loading ? (
                     <span>Submitting...</span>
                   ) : (
                     <>
-                      <Send className="w-4 h-4" />
+                      <Send className="w-4 h-4" strokeWidth={1.5} aria-hidden="true" />
                       <span>Submit Application</span>
                     </>
                   )}
-                </button>
+                </motion.button>
               </form>
             )}
-          </div>
+          </RevealBlock>
         </div>
       </div>
     </section>

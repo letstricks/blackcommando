@@ -1,74 +1,74 @@
+"use client";
+
 import React from "react";
+import { RevealBlock, StaggerGrid, StaggerItem } from "./MotionPrimitives";
 
 export default function HowItWorks() {
   const steps = [
     {
       num: "01",
       title: "Consult",
-      desc: "Tell us your facility requirements, shift hours, and threat profile.",
+      desc: "Share your facility size, gate count, shift structure, and required guard strength.",
     },
     {
       num: "02",
       title: "Assess",
-      desc: "Our officers survey your site perimeter, blind spots, and entry gates.",
+      desc: "Our field officer surveys entry gates, blind spots, and perimeter lighting.",
     },
     {
       num: "03",
       title: "Deploy",
-      desc: "Vetted, uniform-equipped guards take over posts punctually on schedule.",
+      desc: "Vetted, uniform-equipped guards assume post duties with documented handover orders.",
     },
     {
       num: "04",
       title: "Monitor",
-      desc: "Ongoing midnight supervisor checks, shift logs, and 24/7 control room support.",
+      desc: "Continuous night checks, attendance verification, and 24/7 command center backup.",
     },
   ];
 
   return (
-    <section className="py-24 bg-[#0c0d12] border-t border-white/5 font-sans">
+    <section className="light-surface py-20 sm:py-24 bg-vanilla-100 text-ink-primary border-b border-indigo-800/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-16">
-          <p className="text-sm uppercase tracking-widest text-red-500 font-bold mb-2">
-            Execution
+        <RevealBlock className="space-y-3 max-w-2xl mb-12">
+          <p className="font-mono text-xs text-ink-muted tracking-wide">
+            07 · Deployment Process
           </p>
-          <h2 className="text-4xl sm:text-6xl font-black tracking-tight text-white leading-tight uppercase">
-            How It Works
+          <h2 className="font-display text-3xl sm:text-5xl font-semibold tracking-tight text-ink-primary leading-[1.1]">
+            Four steps from audit to post handover
           </h2>
-        </div>
+        </RevealBlock>
 
-        {/* Steps with Animated Connecting Pipeline */}
         <div className="relative">
-          {/* Subtle Pipeline Line (Desktop) */}
-          <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-[2px] bg-gradient-to-r from-red-600/30 via-white/20 to-red-600/30 -translate-y-6 pointer-events-none" />
+          <div
+            className="hidden lg:block absolute top-11 left-8 right-8 h-px bg-indigo-800/15 pointer-events-none"
+            aria-hidden="true"
+          />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7 relative z-10">
-            {steps.map((st, i) => (
-              <div
+          <StaggerGrid className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 relative z-10">
+            {steps.map((st) => (
+              <StaggerItem
                 key={st.num}
-                className="group p-8 rounded-2xl bg-[#10121a]/90 border border-white/10 hover:border-red-600/60 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-red-600/10 relative overflow-hidden"
+                className="rounded-xl bg-vanilla-50 border border-indigo-800/12 p-6 sm:p-7"
               >
-                {/* Active Step Indicator Dot */}
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-4xl font-black text-red-500 group-hover:scale-110 transition-transform origin-left block">
+                <div className="flex items-center justify-between mb-5">
+                  <span className="font-mono text-sm font-semibold text-vanilla-100 bg-indigo-800 px-2.5 py-1 rounded-md tabular-nums">
                     {st.num}
                   </span>
-                  <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-xs font-bold text-neutral-400 group-hover:border-red-600 group-hover:text-red-500 transition-colors">
-                    0{i + 1}
-                  </div>
+                  <span className="font-mono text-xs text-ink-muted">
+                    Step {st.num}
+                  </span>
                 </div>
 
-                <h3 className="text-xl font-bold text-white tracking-tight mb-2 group-hover:text-red-400 transition-colors">
+                <h3 className="font-display text-lg font-semibold text-ink-primary mb-2">
                   {st.title}
                 </h3>
-                <p className="text-sm text-neutral-400 leading-relaxed font-light">
+                <p className="text-sm text-ink-secondary leading-relaxed">
                   {st.desc}
                 </p>
-
-                {/* Bottom Red Glow Bar on Hover */}
-                <div className="absolute bottom-0 left-0 right-0 h-1 bg-red-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerGrid>
         </div>
       </div>
     </section>

@@ -1,7 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { X, Send, CheckCircle2 } from "lucide-react";
+import { SITE_CONFIG, SERVICES_LIST } from "@/lib/site-data";
+import { EDITORIAL_EASE } from "./MotionPrimitives";
 
 interface QuoteModalProps {
   isOpen: boolean;
@@ -12,7 +15,7 @@ interface QuoteModalProps {
 export default function QuoteModal({
   isOpen,
   onClose,
-  defaultService = "Armed & Unarmed Guards",
+  defaultService = SERVICES_LIST[0].title,
 }: QuoteModalProps) {
   const [formData, setFormData] = useState({
     name: "",
@@ -26,7 +29,18 @@ export default function QuoteModal({
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  if (!isOpen) return null;
+  useEffect(() => {
+    setFormData((prev) => ({ ...prev, serviceNeeded: defaultService }));
+  }, [defaultService]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, onClose]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,165 +48,253 @@ export default function QuoteModal({
     setTimeout(() => {
       setIsSubmitting(false);
       setSubmitted(true);
-    }, 600);
+    }, 500);
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="relative w-full max-w-lg bg-[#12141e] border border-white/10 rounded-2xl shadow-2xl overflow-hidden font-sans">
-        {/* Header */}
-        <div className="p-6 border-b border-white/10 flex items-center justify-between">
-          <div>
-            <h3 className="text-xl font-bold text-white tracking-tight">
-              Request Free Site Assessment
-            </h3>
-            <p className="text-xs text-neutral-400 mt-1">
-              Our supervisory command will survey your premises and formulate a tailored security plan.
-            </p>
-          </div>
-          <button
-            onClick={onClose}
-            className="p-1.5 rounded-full text-neutral-400 hover:text-white hover:bg-white/10"
-            aria-label="Close"
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="quote-modal-title"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.18, ease: EDITORIAL_EASE }}
+          onClick={onClose}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-indigo-950/80 backdrop-blur-sm"
+        >
+          <motion.div
+            initial={{ opacity: 0, y: 12, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 8, scale: 0.98 }}
+            transition={{ duration: 0.22, ease: EDITORIAL_EASE }}
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-lg bg-indigo-900 border border-vanilla-100/20 rounded-2xl overflow-hidden text-vanilla-100"
           >
-            <X className="w-5 h-5" />
-          </button>
-        </div>
-
-        {/* Body */}
-        <div className="p-6">
-          {submitted ? (
-            <div className="py-8 text-center flex flex-col items-center">
-              <div className="w-12 h-12 rounded-full bg-red-600/10 border border-red-500/30 flex items-center justify-center text-red-500 mb-3">
-                <CheckCircle2 className="w-7 h-7" />
+            {/* Header */}
+            <div className="p-6 border-b border-vanilla-100/12 flex items-start justify-between gap-4">
+              <div>
+                <h3
+                  id="quote-modal-title"
+                  className="font-display text-xl font-semibold text-vanilla-100"
+                >
+                  Request Free Site Assessment
+                </h3>
+                <p className="text-xs text-indigo-300 mt-1 leading-relaxed">
+                  Our supervisory officer will assess your premises and prepare
+                  a deployment schedule.
+                </p>
               </div>
-              <h4 className="text-lg font-bold text-white">Assessment Request Logged</h4>
-              <p className="text-xs text-neutral-300 mt-2 max-w-sm leading-relaxed">
-                Thank you. Our team will contact you within 24 hours. For emergencies, call <strong>+91 94403 34046</strong>.
-              </p>
               <button
-                onClick={() => {
-                  setSubmitted(false);
-                  onClose();
-                }}
-                className="mt-6 px-6 py-2.5 rounded-full bg-red-600 text-white text-xs font-bold uppercase tracking-wider hover:bg-red-700"
+                type="button"
+                onClick={onClose}
+                className="w-9 h-9 rounded-lg text-indigo-300 hover:text-vanilla-100 hover:bg-indigo-800 flex items-center justify-center transition-colors shrink-0 cursor-pointer"
+                aria-label="Close modal"
               >
-                Close
+                <X className="w-5 h-5" strokeWidth={1.5} aria-hidden="true" />
               </button>
             </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-bold text-neutral-300 mb-1 uppercase tracking-wider">
-                    Name *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="Your name"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full bg-[#08090c] border border-white/10 rounded-xl px-3.5 py-2.5 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-red-600"
-                  />
+
+            {/* Body */}
+            <div className="p-6">
+              {submitted ? (
+                <div className="py-8 text-center flex flex-col items-center">
+                  <div className="w-12 h-12 rounded-full bg-indigo-800 border border-vanilla-100/20 flex items-center justify-center text-status-live mb-3">
+                    <CheckCircle2 className="w-6 h-6" strokeWidth={1.5} aria-hidden="true" />
+                  </div>
+                  <h4 className="font-display text-lg font-semibold text-vanilla-100">
+                    Assessment Request Logged
+                  </h4>
+                  <p className="text-sm text-indigo-200 mt-2 max-w-sm leading-relaxed">
+                    Thank you. Our team will contact you within 24 hours. For
+                    immediate assistance, call{" "}
+                    <strong className="text-vanilla-100 tabular-nums">
+                      {SITE_CONFIG.contact.primaryPhoneDisplay}
+                    </strong>
+                    .
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSubmitted(false);
+                      onClose();
+                    }}
+                    className="mt-6 h-10 px-6 rounded-lg bg-vanilla-100 text-indigo-800 text-xs font-semibold cursor-pointer"
+                  >
+                    Close
+                  </button>
                 </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label
+                        htmlFor="modal-name"
+                        className="block text-xs font-medium text-indigo-200 mb-1.5"
+                      >
+                        Name *
+                      </label>
+                      <input
+                        id="modal-name"
+                        type="text"
+                        required
+                        placeholder="Your name"
+                        value={formData.name}
+                        onChange={(e) =>
+                          setFormData({ ...formData, name: e.target.value })
+                        }
+                        className="w-full h-11 bg-indigo-950 border border-vanilla-100/15 rounded-lg px-3.5 text-sm text-vanilla-100 placeholder-indigo-400 focus:outline-none focus:border-vanilla-100"
+                      />
+                    </div>
 
-                <div>
-                  <label className="block text-xs font-bold text-neutral-300 mb-1 uppercase tracking-wider">
-                    Phone *
-                  </label>
-                  <input
-                    type="tel"
-                    required
-                    placeholder="+91 Mobile number"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full bg-[#08090c] border border-white/10 rounded-xl px-3.5 py-2.5 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-red-600"
-                  />
-                </div>
-              </div>
+                    <div>
+                      <label
+                        htmlFor="modal-phone"
+                        className="block text-xs font-medium text-indigo-200 mb-1.5"
+                      >
+                        Mobile Number *
+                      </label>
+                      <input
+                        id="modal-phone"
+                        type="tel"
+                        required
+                        placeholder="+91 mobile number"
+                        value={formData.phone}
+                        onChange={(e) =>
+                          setFormData({ ...formData, phone: e.target.value })
+                        }
+                        className="w-full h-11 bg-indigo-950 border border-vanilla-100/15 rounded-lg px-3.5 text-sm text-vanilla-100 placeholder-indigo-400 focus:outline-none focus:border-vanilla-100"
+                      />
+                    </div>
+                  </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-bold text-neutral-300 mb-1 uppercase tracking-wider">
-                    Email *
-                  </label>
-                  <input
-                    type="email"
-                    required
-                    placeholder="Email address"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full bg-[#08090c] border border-white/10 rounded-xl px-3.5 py-2.5 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-red-600"
-                  />
-                </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label
+                        htmlFor="modal-email"
+                        className="block text-xs font-medium text-indigo-200 mb-1.5"
+                      >
+                        Email *
+                      </label>
+                      <input
+                        id="modal-email"
+                        type="email"
+                        required
+                        placeholder="Email address"
+                        value={formData.email}
+                        onChange={(e) =>
+                          setFormData({ ...formData, email: e.target.value })
+                        }
+                        className="w-full h-11 bg-indigo-950 border border-vanilla-100/15 rounded-lg px-3.5 text-sm text-vanilla-100 placeholder-indigo-400 focus:outline-none focus:border-vanilla-100"
+                      />
+                    </div>
 
-                <div>
-                  <label className="block text-xs font-bold text-neutral-300 mb-1 uppercase tracking-wider">
-                    Location / City *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. Tiruppur"
-                    value={formData.location}
-                    onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                    className="w-full bg-[#08090c] border border-white/10 rounded-xl px-3.5 py-2.5 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-red-600"
-                  />
-                </div>
-              </div>
+                    <div>
+                      <label
+                        htmlFor="modal-location"
+                        className="block text-xs font-medium text-indigo-200 mb-1.5"
+                      >
+                        Location / City *
+                      </label>
+                      <input
+                        id="modal-location"
+                        type="text"
+                        required
+                        placeholder="Tiruppur"
+                        value={formData.location}
+                        onChange={(e) =>
+                          setFormData({ ...formData, location: e.target.value })
+                        }
+                        className="w-full h-11 bg-indigo-950 border border-vanilla-100/15 rounded-lg px-3.5 text-sm text-vanilla-100 placeholder-indigo-400 focus:outline-none focus:border-vanilla-100"
+                      />
+                    </div>
+                  </div>
 
-              <div>
-                <label className="block text-xs font-bold text-neutral-300 mb-1 uppercase tracking-wider">
-                  Service Needed *
-                </label>
-                <select
-                  value={formData.serviceNeeded}
-                  onChange={(e) => setFormData({ ...formData, serviceNeeded: e.target.value })}
-                  className="w-full bg-[#08090c] border border-white/10 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-red-600"
-                >
-                  <option value="Armed & Unarmed Guards">Armed & Unarmed Guards</option>
-                  <option value="Residential Security">Residential Security</option>
-                  <option value="Event Security">Event Security</option>
-                  <option value="Industrial & Warehouse">Industrial & Warehouse Security</option>
-                  <option value="Corporate & Retail">Corporate & Retail Security</option>
-                  <option value="Bodyguard & Escort">Bodyguard & Escort Services</option>
-                  <option value="Patrol & Response">Patrol & Quick Response Team</option>
-                  <option value="Security Consulting">Security Consulting & Risk Assessment</option>
-                </select>
-              </div>
+                  <div>
+                    <label
+                      htmlFor="modal-service"
+                      className="block text-xs font-medium text-indigo-200 mb-1.5"
+                    >
+                      Service Needed *
+                    </label>
+                    <select
+                      id="modal-service"
+                      value={formData.serviceNeeded}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          serviceNeeded: e.target.value,
+                        })
+                      }
+                      className="w-full h-11 bg-indigo-950 border border-vanilla-100/15 rounded-lg px-3.5 text-sm text-vanilla-100 focus:outline-none focus:border-vanilla-100"
+                    >
+                      {SERVICES_LIST.map((service) => (
+                        <option key={service.num} value={service.title}>
+                          {service.title}
+                        </option>
+                      ))}
+                      <option value="Factory / Industrial">
+                        Factory / Industrial
+                      </option>
+                      <option value="Corporate Office">Corporate Office</option>
+                      <option value="Residential Society">
+                        Residential Society
+                      </option>
+                      <option value="Warehouse / Logistics">
+                        Warehouse / Logistics
+                      </option>
+                      <option value="Retail / Showroom">
+                        Retail / Showroom
+                      </option>
+                      <option value="Event / Temporary">
+                        Event / Temporary
+                      </option>
+                    </select>
+                  </div>
 
-              <div>
-                <label className="block text-xs font-bold text-neutral-300 mb-1 uppercase tracking-wider">
-                  Site Notes
-                </label>
-                <textarea
-                  rows={2}
-                  placeholder="Specify shifts or guard numbers..."
-                  value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  className="w-full bg-[#08090c] border border-white/10 rounded-xl p-3 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-red-600 resize-none"
-                ></textarea>
-              </div>
+                  <div>
+                    <label
+                      htmlFor="modal-notes"
+                      className="block text-xs font-medium text-indigo-200 mb-1.5"
+                    >
+                      Site Notes
+                    </label>
+                    <textarea
+                      id="modal-notes"
+                      rows={2}
+                      placeholder="Specify shifts or guard strength"
+                      value={formData.message}
+                      onChange={(e) =>
+                        setFormData({ ...formData, message: e.target.value })
+                      }
+                      className="w-full bg-indigo-950 border border-vanilla-100/15 rounded-lg p-3 text-sm text-vanilla-100 placeholder-indigo-400 focus:outline-none focus:border-vanilla-100 resize-none"
+                    />
+                  </div>
 
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full py-4 rounded-full bg-red-600 hover:bg-red-700 text-white font-black text-xs sm:text-sm uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-xl shadow-red-600/30"
-              >
-                {isSubmitting ? (
-                  <span>Submitting...</span>
-                ) : (
-                  <>
-                    <Send className="w-3.5 h-3.5" />
-                    <span>Submit Free Assessment Request</span>
-                  </>
-                )}
-              </button>
-            </form>
-          )}
-        </div>
-      </div>
-    </div>
+                  <motion.button
+                    type="submit"
+                    disabled={isSubmitting}
+                    whileTap={{ scale: 0.985 }}
+                    transition={{ duration: 0.14, ease: EDITORIAL_EASE }}
+                    className="w-full h-11 rounded-lg bg-vanilla-100 hover:bg-vanilla-50 text-indigo-800 font-semibold text-sm flex items-center justify-center gap-2 transition-colors duration-150 disabled:opacity-50 cursor-pointer"
+                  >
+                    {isSubmitting ? (
+                      <span>Submitting...</span>
+                    ) : (
+                      <>
+                        <Send className="w-4 h-4" strokeWidth={1.5} aria-hidden="true" />
+                        <span>Submit Assessment Request</span>
+                      </>
+                    )}
+                  </motion.button>
+                </form>
+              )}
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }

@@ -3,9 +3,12 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 import { Phone, MessageCircle, Menu, X } from "lucide-react";
 import Logo from "./Logo";
 import QuoteModal from "./QuoteModal";
+import { SITE_CONFIG, buildWhatsappUrl } from "@/lib/site-data";
+import { EDITORIAL_EASE } from "./MotionPrimitives";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -14,122 +17,165 @@ export default function Navbar() {
   const pathname = usePathname();
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
+    const handleScroll = () => setScrolled(window.scrollY > 16);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const navLinks = [
     { num: "01", label: "Services", href: "/services" },
-    { num: "02", label: "About us", href: "/about" },
+    { num: "02", label: "About", href: "/about" },
     { num: "03", label: "Why Us", href: "/why-choose-us" },
     { num: "04", label: "Industries", href: "/industries" },
     { num: "05", label: "Careers", href: "/careers" },
     { num: "06", label: "Contact", href: "/contact" },
   ];
 
+  const whatsappHref = buildWhatsappUrl(
+    "Hello Black Cat Commando Security Force, I would like to request a security deployment quote."
+  );
+
   return (
     <>
       <header
-        className={`sticky top-0 z-40 transition-all duration-300 ${
+        className={`sticky top-0 z-40 transition-[background-color,border-color] duration-200 ease-editorial ${
           scrolled
-            ? "bg-[#08090c]/95 backdrop-blur-md border-b border-red-600/30 py-3.5 shadow-2xl shadow-black/80"
-            : "bg-transparent border-b border-white/5 py-4 sm:py-5"
+            ? "bg-indigo-800/95 backdrop-blur-md border-b border-vanilla-100/15"
+            : "bg-indigo-800 border-b border-vanilla-100/10"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-          {/* Logo in Navbar (Black and White Emblem + Bold Typeface) */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
           <Logo variant="horizontal" />
 
-          {/* Desktop Numbered Nav Links */}
-          <nav className="hidden lg:flex items-center gap-7">
+          <nav aria-label="Primary navigation" className="hidden lg:flex items-center gap-6">
             {navLinks.map((link) => {
               const isActive = pathname === link.href;
               return (
                 <Link
-                  key={link.label}
+                  key={link.href}
                   href={link.href}
-                  className={`text-sm tracking-wide transition-colors flex items-center gap-1.5 font-bold ${
+                  className={`relative py-2 text-sm font-medium transition-colors duration-150 flex items-center gap-1.5 ${
                     isActive
-                      ? "text-red-500"
-                      : "text-neutral-300 hover:text-white"
+                      ? "text-vanilla-100"
+                      : "text-indigo-300 hover:text-vanilla-100"
                   }`}
                 >
-                  <span className="text-red-500 font-bold text-xs">{link.num}.</span>
+                  <span className="font-mono text-xs text-indigo-400 tabular-nums">
+                    {link.num}
+                  </span>
                   <span>{link.label}</span>
+                  {isActive && (
+                    <motion.span
+                      layoutId="nav-active-underline"
+                      transition={{ duration: 0.22, ease: EDITORIAL_EASE }}
+                      className="absolute inset-x-0 bottom-0 h-0.5 bg-vanilla-100 rounded-full"
+                    />
+                  )}
                 </Link>
               );
             })}
           </nav>
 
-          {/* Right Action Buttons */}
-          <div className="hidden sm:flex items-center gap-3">
-            {/* Call Icon */}
+          <div className="hidden sm:flex items-center gap-2.5">
             <a
-              href="tel:+919440334046"
-              className="w-9 h-9 rounded-full bg-neutral-900 border border-white/20 text-white flex items-center justify-center hover:bg-red-600 hover:border-red-600 transition-colors shadow-md"
-              title="Call Operations"
+              href={SITE_CONFIG.contact.primaryPhoneHref}
+              className="w-10 h-10 rounded-lg bg-indigo-900 border border-vanilla-100/15 text-vanilla-100 flex items-center justify-center hover:bg-indigo-700 hover:border-vanilla-100/30 transition-colors duration-150"
+              aria-label={`Call ${SITE_CONFIG.contact.primaryPhoneDisplay}`}
+              title={`Call ${SITE_CONFIG.contact.primaryPhoneDisplay}`}
             >
-              <Phone className="w-4 h-4" />
+              <Phone className="w-4 h-4" strokeWidth={1.5} aria-hidden="true" />
             </a>
 
-            {/* WhatsApp Icon */}
             <a
-              href="https://wa.me/919440334046"
+              href={whatsappHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-9 h-9 rounded-full bg-neutral-900 border border-white/20 text-white flex items-center justify-center hover:bg-emerald-600 hover:border-emerald-600 transition-colors shadow-md"
-              title="WhatsApp Operations"
+              className="w-10 h-10 rounded-lg bg-indigo-900 border border-vanilla-100/15 text-vanilla-100 flex items-center justify-center hover:bg-indigo-700 hover:border-vanilla-100/30 transition-colors duration-150"
+              aria-label="Message on WhatsApp"
+              title="Message on WhatsApp"
             >
-              <MessageCircle className="w-4 h-4" />
+              <MessageCircle className="w-4 h-4" strokeWidth={1.5} aria-hidden="true" />
             </a>
 
-            {/* Accent Pill Button (Deep Red) */}
-            <button
+            <motion.button
+              type="button"
+              whileTap={{ scale: 0.98 }}
+              transition={{ duration: 0.14, ease: EDITORIAL_EASE }}
               onClick={() => setIsQuoteModalOpen(true)}
-              className="ml-2 px-6 py-2.5 rounded-full bg-red-600 hover:bg-red-700 text-white text-xs sm:text-sm font-bold transition-all uppercase tracking-wider shadow-md shadow-red-600/30 hover:scale-105"
+              className="h-10 px-4 rounded-lg bg-vanilla-100 hover:bg-vanilla-50 text-indigo-800 text-sm font-semibold transition-colors duration-150 cursor-pointer"
             >
               Get Quote
-            </button>
+            </motion.button>
           </div>
 
-          {/* Mobile menu toggle */}
           <button
+            type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 text-neutral-300 hover:text-white"
-            aria-label="Toggle navigation"
+            className="lg:hidden w-11 h-11 rounded-lg flex items-center justify-center text-vanilla-100 hover:bg-indigo-700 transition-colors duration-150 cursor-pointer"
+            aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={mobileMenuOpen}
           >
-            {mobileMenuOpen ? <X className="w-7 h-7" /> : <Menu className="w-7 h-7" />}
+            {mobileMenuOpen ? (
+              <X className="w-5 h-5" strokeWidth={1.5} aria-hidden="true" />
+            ) : (
+              <Menu className="w-5 h-5" strokeWidth={1.5} aria-hidden="true" />
+            )}
           </button>
         </div>
 
-        {/* Mobile Dropdown */}
-        {mobileMenuOpen && (
-          <div className="lg:hidden bg-[#08090c] border-b border-white/10 px-6 py-6 space-y-3">
-            {navLinks.map((link) => (
-              <Link
-                key={link.label}
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className="block text-base font-bold text-neutral-200 hover:text-white py-1.5"
-              >
-                <span className="text-red-500 mr-2">{link.num}.</span>
-                <span>{link.label}</span>
-              </Link>
-            ))}
-            <div className="pt-4 border-t border-white/10 flex gap-3">
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  setIsQuoteModalOpen(true);
-                }}
-                className="w-full py-3.5 rounded-full bg-red-600 text-white text-sm font-bold uppercase tracking-wider text-center"
-              >
-                Contact Us
-              </button>
-            </div>
-          </div>
-        )}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.18, ease: EDITORIAL_EASE }}
+              className="lg:hidden bg-indigo-900 border-b border-vanilla-100/15 px-4 py-4 space-y-1"
+            >
+              {navLinks.map((link) => {
+                const isActive = pathname === link.href;
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150 ${
+                      isActive
+                        ? "bg-indigo-700 text-vanilla-100"
+                        : "text-indigo-200 hover:bg-indigo-800 hover:text-vanilla-100"
+                    }`}
+                  >
+                    <span className="font-mono text-xs text-indigo-400 tabular-nums">
+                      {link.num}
+                    </span>
+                    <span>{link.label}</span>
+                  </Link>
+                );
+              })}
+
+              <div className="pt-3 mt-2 border-t border-vanilla-100/10 flex flex-col gap-2">
+                <a
+                  href={SITE_CONFIG.contact.primaryPhoneHref}
+                  className="h-11 px-4 rounded-lg border border-vanilla-100/20 text-vanilla-100 text-sm font-medium flex items-center justify-center gap-2 tabular-nums"
+                >
+                  <Phone className="w-4 h-4" strokeWidth={1.5} aria-hidden="true" />
+                  <span>{SITE_CONFIG.contact.primaryPhoneDisplay}</span>
+                </a>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    setIsQuoteModalOpen(true);
+                  }}
+                  className="h-11 px-4 rounded-lg bg-vanilla-100 text-indigo-800 text-sm font-semibold cursor-pointer"
+                >
+                  Request Free Assessment
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </header>
 
       <QuoteModal isOpen={isQuoteModalOpen} onClose={() => setIsQuoteModalOpen(false)} />

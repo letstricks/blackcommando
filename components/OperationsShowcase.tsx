@@ -2,54 +2,52 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { Shield, Eye, Radio, Users, ArrowUpRight } from "lucide-react";
 import QuoteModal from "./QuoteModal";
+import { RevealBlock, StaggerGrid, StaggerItem } from "./MotionPrimitives";
 
 export default function OperationsShowcase() {
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
-  const [selectedService, setSelectedService] = useState<string>("Armed & Unarmed Guards");
+  const [selectedService, setSelectedService] = useState<string>(
+    "Armed & Unarmed Guards"
+  );
 
   const operations = [
     {
       id: "command",
       title: "24/7 Central Command & Control",
-      category: "COMMAND CENTER",
-      tag: "REAL-TIME MONITORING",
-      desc: "Centralized CCTV video wall, GPS patrol monitoring, and instant incident dispatch operating 24 hours a day, 365 days a year.",
+      category: "Command Center",
+      desc: "Centralized monitoring, shift attendance verification, and rapid incident dispatch operating 24 hours a day, 365 days a year.",
       image: "/command-center.jpg",
       icon: Eye,
-      metric: "24/7 Command Active",
+      metric: "24/7 Dispatch",
     },
     {
       id: "industrial",
-      title: "Industrial & Manufacturing Patrols",
-      category: "PERIMETER SECURITY",
-      tag: "LOSS PREVENTION",
-      desc: "Rigorous gate-pass controls, textile mill night patrols, shift labor frisking, and material theft prevention protocols.",
+      title: "Industrial & Textile Mill Patrols",
+      category: "Perimeter Security",
+      desc: "Gate-pass verification, textile mill night rounds, shift frisking, and material loss prevention protocols.",
       image: "/industrial-patrol.jpg",
       icon: Shield,
       metric: "120+ Sites Secured",
     },
     {
       id: "vip",
-      title: "Executive Protection & VIP Escort",
-      category: "CLOSE PROTECTION",
-      tag: "DISCREET TRANSIT",
-      desc: "Tailored personal security officers (PSO), VIP convoy movement, and discreet armed/unarmed executive bodyguards.",
+      title: "Executive Protection & Escort",
+      category: "Close Protection",
+      desc: "Personal security officers (PSO), executive convoy transit, and discreet close protection for corporate leadership.",
       image: "/vip-escort.jpg",
       icon: Radio,
-      metric: "Elite Trained PSOs",
+      metric: "Trained PSOs",
     },
     {
       id: "squad",
       title: "Trained Force & Shift Inspection",
-      category: "FORCE DISCIPLINE",
-      tag: "VERIFIED PERSONNEL",
-      desc: "Daily muster parade, uniform inspection, emergency fire-drill readiness, and strict post discipline across all deployments.",
+      category: "Force Discipline",
+      desc: "Daily muster parade, uniform inspection, fire-drill readiness, and strict post discipline across every site.",
       image: "/guard-squad.jpg",
       icon: Users,
-      metric: "100% Police Verified",
+      metric: "Police Verified",
     },
   ];
 
@@ -59,94 +57,73 @@ export default function OperationsShowcase() {
   };
 
   return (
-    <section className="py-28 bg-[#090a0f] border-t border-white/5 font-sans relative overflow-hidden">
-      {/* Background Ambience */}
-      <div className="absolute top-1/3 -left-48 w-96 h-96 bg-red-600/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-10 -right-48 w-96 h-96 bg-red-600/5 rounded-full blur-3xl pointer-events-none" />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
-        {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
-          <div>
-            <p className="text-xs sm:text-sm uppercase tracking-widest text-red-500 font-bold mb-2 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-red-600 animate-ping" />
-              Field Deployments // Live Visuals
+    <section className="py-20 sm:py-24 bg-indigo-900 border-b border-vanilla-100/10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <RevealBlock className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+          <div className="space-y-3 max-w-2xl">
+            <p className="font-mono text-xs text-indigo-300 tracking-wide">
+              04 · Field Operations
             </p>
-            <h2 className="text-4xl sm:text-6xl font-black tracking-tight text-white leading-tight uppercase">
-              Vigilance In Action
+            <h2 className="font-display text-3xl sm:text-5xl font-semibold tracking-tight text-vanilla-100 leading-[1.1]">
+              Vigilance in action across Tamil Nadu
             </h2>
           </div>
-          <p className="text-sm sm:text-base text-neutral-300 max-w-md font-light leading-relaxed">
-            Real photography from our operational deployments across Tamil Nadu — from modern textile facilities to 24/7 command centers.
+          <p className="text-sm sm:text-base text-indigo-200 max-w-md leading-relaxed">
+            Structured field procedures spanning manufacturing units, executive
+            transit, and centralized supervision.
           </p>
-        </div>
+        </RevealBlock>
 
-        {/* 4 Large Visual Cards (2x2 Grid) */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <StaggerGrid className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {operations.map((op) => {
             const Icon = op.icon;
             return (
-              <div
-                key={op.id}
-                onClick={() => handleOpenQuote(op.title)}
-                className="group relative rounded-3xl overflow-hidden border border-white/10 hover:border-red-600/70 transition-all duration-500 bg-[#0e1017] flex flex-col justify-end min-h-[420px] sm:min-h-[460px] cursor-pointer shadow-2xl hover:shadow-red-600/10"
-              >
-                {/* Photo Background with Zoom & Parallax */}
-                <div className="absolute inset-0 z-0">
-                  <Image
-                    src={op.image}
-                    alt={op.title}
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 50vw"
-                    className="object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out brightness-90 group-hover:brightness-100"
-                  />
-                  {/* Cinematic Dark Gradient Layers for perfect text contrast */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#08090c] via-[#08090c]/75 to-transparent" />
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#08090c]/85 via-transparent to-transparent" />
-                </div>
-
-                {/* Top Badge Indicators */}
-                <div className="absolute top-5 left-5 right-5 z-10 flex items-center justify-between">
-                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/80 backdrop-blur-md border border-white/15 text-[11px] font-bold text-white uppercase tracking-wider">
-                    <span className="w-2 h-2 rounded-full bg-red-600 animate-pulse" />
-                    <span>{op.category}</span>
+              <StaggerItem key={op.id}>
+                <button
+                  type="button"
+                  onClick={() => handleOpenQuote(op.title)}
+                  className="group relative w-full text-left rounded-2xl overflow-hidden border border-vanilla-100/12 hover:border-vanilla-100/35 bg-indigo-950 flex flex-col justify-end min-h-[380px] sm:min-h-[420px] transition-[border-color] duration-150 cursor-pointer"
+                >
+                  <div className="absolute inset-0 z-0">
+                    <Image
+                      src={op.image}
+                      alt={op.title}
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                      className="object-cover object-center opacity-80 group-hover:opacity-90 transition-opacity duration-200"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-indigo-950 via-indigo-950/75 to-indigo-950/20" />
                   </div>
 
-                  <div className="w-10 h-10 rounded-full bg-black/80 backdrop-blur-md border border-white/15 flex items-center justify-center text-white group-hover:bg-red-600 group-hover:border-red-600 transition-colors shadow-lg">
-                    <ArrowUpRight className="w-5 h-5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                  <div className="relative z-10 p-6 sm:p-8 space-y-3">
+                    <div className="flex items-center justify-between gap-4">
+                      <div className="inline-flex items-center gap-2 text-xs font-mono text-indigo-200">
+                        <Icon className="w-4 h-4" strokeWidth={1.5} aria-hidden="true" />
+                        <span>{op.category}</span>
+                        <span className="text-indigo-400" aria-hidden="true">
+                          ·
+                        </span>
+                        <span className="text-vanilla-100">{op.metric}</span>
+                      </div>
+
+                      <div className="w-9 h-9 rounded-lg bg-indigo-900/90 border border-vanilla-100/20 flex items-center justify-center text-vanilla-100 group-hover:bg-vanilla-100 group-hover:text-indigo-800 transition-colors duration-150 shrink-0">
+                        <ArrowUpRight className="w-4 h-4" strokeWidth={1.5} aria-hidden="true" />
+                      </div>
+                    </div>
+
+                    <h3 className="font-display text-xl sm:text-2xl font-semibold text-vanilla-100 leading-snug">
+                      {op.title}
+                    </h3>
+
+                    <p className="text-sm text-indigo-200 leading-relaxed max-w-xl">
+                      {op.desc}
+                    </p>
                   </div>
-                </div>
-
-                {/* Bottom Content Area */}
-                <div className="relative z-10 p-6 sm:p-8 space-y-3">
-                  <div className="flex items-center gap-2 text-xs font-bold text-red-500 tracking-widest uppercase">
-                    <Icon className="w-4 h-4" />
-                    <span>{op.tag}</span>
-                    <span className="text-neutral-500">•</span>
-                    <span className="text-neutral-300 font-mono">{op.metric}</span>
-                  </div>
-
-                  <h3 className="text-2xl sm:text-3xl font-black text-white uppercase tracking-tight group-hover:text-red-400 transition-colors">
-                    {op.title}
-                  </h3>
-
-                  <p className="text-sm text-neutral-300 font-light leading-relaxed max-w-xl">
-                    {op.desc}
-                  </p>
-
-                  <div className="pt-2 flex items-center gap-2 text-xs font-bold text-white uppercase tracking-wider group-hover:text-red-400 transition-colors">
-                    <span>Deploy This Service</span>
-                    <span className="text-red-500 font-bold group-hover:translate-x-1 transition-transform">→</span>
-                  </div>
-                </div>
-
-                {/* Hover Bottom Glowing Line */}
-                <div className="absolute bottom-0 left-0 right-0 h-1 bg-red-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left z-20" />
-              </div>
+                </button>
+              </StaggerItem>
             );
           })}
-        </div>
+        </StaggerGrid>
       </div>
 
       <QuoteModal

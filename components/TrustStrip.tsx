@@ -2,69 +2,67 @@
 
 import React from "react";
 import { ShieldCheck, Building2, Headset, Award } from "lucide-react";
+import { StaggerGrid, StaggerItem } from "./MotionPrimitives";
 
 export default function TrustStrip() {
   const stats = [
     {
       value: "500+",
       label: "Trained Guards",
-      sub: "Police-verified & vetted",
+      sub: "Police-verified and vetted personnel",
       icon: ShieldCheck,
     },
     {
       value: "120+",
       label: "Sites Protected",
-      sub: "Industries, malls & residences",
+      sub: "Textile mills, plants, and residences",
       icon: Building2,
     },
     {
       value: "24/7",
-      label: "Tactical Support",
-      sub: "Active control room dispatch",
+      label: "Control Room",
+      sub: "Active Tiruppur supervisory dispatch",
       icon: Headset,
     },
     {
       value: "12+",
       label: "Years of Service",
-      sub: "Discipline & proven vigilance",
+      sub: "Consistent discipline across Tamil Nadu",
       icon: Award,
     },
   ];
 
   return (
-    <section className="relative z-20 bg-[#0c0d12] border-y border-white/10 py-10 overflow-hidden font-sans">
-      {/* Background Subtle Radar Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-20 bg-red-600/5 blur-3xl pointer-events-none" />
-
+    <section className="bg-indigo-950 border-b border-vanilla-100/10 py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 divide-y sm:divide-y-0 sm:divide-x divide-white/10">
-          {stats.map((st, i) => {
+        <StaggerGrid className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+          {stats.map((st, idx) => {
             const Icon = st.icon;
             return (
-              <div
-                key={i}
-                className={`pt-6 sm:pt-0 ${
-                  i !== 0 ? "sm:pl-8" : ""
-                } flex flex-col justify-center group cursor-default`}
+              <StaggerItem
+                key={st.label}
+                className={`flex flex-col justify-start ${
+                  idx !== 0 ? "lg:border-l lg:border-vanilla-100/10 lg:pl-8" : ""
+                }`}
               >
                 <div className="flex items-center gap-3 mb-2">
-                  <div className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-red-500 group-hover:border-red-600/70 group-hover:bg-red-600/10 group-hover:scale-110 transition-all duration-300 shadow-md">
-                    <Icon className="w-5 h-5" />
+                  <div className="w-9 h-9 rounded-lg bg-indigo-900 border border-vanilla-100/15 flex items-center justify-center text-vanilla-200 shrink-0">
+                    <Icon className="w-4 h-4" strokeWidth={1.5} aria-hidden="true" />
                   </div>
-                  <span className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight group-hover:text-red-500 transition-colors">
+                  <span className="font-display text-3xl sm:text-4xl font-semibold text-vanilla-100 tracking-tight tabular-nums">
                     {st.value}
                   </span>
                 </div>
-                <h4 className="text-sm sm:text-base font-bold text-neutral-200 tracking-wide uppercase">
+                <h3 className="text-sm font-semibold text-vanilla-100">
                   {st.label}
-                </h4>
-                <p className="text-xs text-neutral-400 font-light mt-0.5">
+                </h3>
+                <p className="text-xs text-indigo-400 mt-1 leading-relaxed">
                   {st.sub}
                 </p>
-              </div>
+              </StaggerItem>
             );
           })}
-        </div>
+        </StaggerGrid>
       </div>
     </section>
   );

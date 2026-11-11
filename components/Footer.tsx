@@ -1,82 +1,164 @@
 import React from "react";
 import Link from "next/link";
+import { FileDown, Phone, Mail, MapPin } from "lucide-react";
 import Logo from "./Logo";
+import { SITE_CONFIG } from "@/lib/site-data";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#08090c] border-t border-white/10 py-16 text-neutral-300 select-none">
+    <footer className="bg-indigo-950 border-t border-vanilla-100/10 py-16 text-indigo-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Col 1: Brand */}
           <div className="space-y-4">
             <Logo variant="horizontal" />
-            <p className="text-sm text-neutral-400 leading-relaxed font-light mt-3">
-              Professional, disciplined security services for businesses, residences, and events across Tamil Nadu.
+            <p className="text-sm text-indigo-300 leading-relaxed">
+              Disciplined, police-verified private security services for textile mills, industries, residences, and events across Tamil Nadu.
             </p>
-            <p className="text-xs text-red-500 font-mono font-bold">
-              ISO 9001:2015 Cert: 230422083182QRA
-            </p>
+            <div className="text-xs font-mono text-indigo-400 space-y-1 tabular-nums">
+              <p>ISO 9001:2015 Cert: {SITE_CONFIG.credentials.certificateNo}</p>
+              <p>
+                GST: {SITE_CONFIG.credentials.gst} · SAC: {SITE_CONFIG.credentials.sac}
+              </p>
+            </div>
           </div>
 
           {/* Col 2: Navigation */}
           <div className="space-y-3">
-            <h4 className="text-sm font-bold uppercase tracking-wider text-white">
-              Navigation
-            </h4>
+            <h4 className="text-sm font-semibold text-vanilla-100">Navigation</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link href="/" className="hover:text-white transition-colors">Home</Link></li>
-              <li><Link href="/about" className="hover:text-white transition-colors">About Us</Link></li>
-              <li><Link href="/services" className="hover:text-white transition-colors">Our Services</Link></li>
-              <li><Link href="/why-choose-us" className="hover:text-white transition-colors">Why Choose Us</Link></li>
-              <li><Link href="/industries" className="hover:text-white transition-colors">Industries Served</Link></li>
-              <li><Link href="/careers" className="hover:text-white transition-colors">Careers</Link></li>
-              <li><Link href="/contact" className="hover:text-white transition-colors">Contact</Link></li>
+              <li>
+                <Link href="/" className="hover:text-vanilla-100 transition-colors duration-150">
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link href="/about" className="hover:text-vanilla-100 transition-colors duration-150">
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link href="/services" className="hover:text-vanilla-100 transition-colors duration-150">
+                  Our Services
+                </Link>
+              </li>
+              <li>
+                <Link href="/why-choose-us" className="hover:text-vanilla-100 transition-colors duration-150">
+                  Why Choose Us
+                </Link>
+              </li>
+              <li>
+                <Link href="/industries" className="hover:text-vanilla-100 transition-colors duration-150">
+                  Industries Served
+                </Link>
+              </li>
+              <li>
+                <Link href="/careers" className="hover:text-vanilla-100 transition-colors duration-150">
+                  Careers
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact" className="hover:text-vanilla-100 transition-colors duration-150">
+                  Contact
+                </Link>
+              </li>
             </ul>
           </div>
 
-          {/* Col 3: Key Services */}
+          {/* Col 3: Official Documents & Downloads */}
           <div className="space-y-3">
-            <h4 className="text-sm font-bold uppercase tracking-wider text-white">
-              Services
+            <h4 className="text-sm font-semibold text-vanilla-100">
+              Official Documents
             </h4>
-            <ul className="space-y-2 text-sm text-neutral-400">
-              <li>Armed & Unarmed Guards</li>
-              <li>Residential Security</li>
-              <li>Event Crowd Control</li>
-              <li>Industrial & Textile Security</li>
-              <li>Bodyguard & Executive Protection</li>
-              <li>Patrol & Quick Response Team</li>
-            </ul>
+            <div className="space-y-2.5">
+              {SITE_CONFIG.documents.map((doc) => (
+                <a
+                  key={doc.id}
+                  href={doc.href}
+                  download={doc.fileName}
+                  className="flex items-start gap-2.5 p-3 rounded-lg bg-indigo-900 border border-vanilla-100/12 hover:border-vanilla-100/30 transition-colors duration-150 group"
+                >
+                  <FileDown
+                    className="w-4 h-4 text-vanilla-100 shrink-0 mt-0.5"
+                    strokeWidth={1.5}
+                    aria-hidden="true"
+                  />
+                  <div>
+                    <div className="text-xs font-semibold text-vanilla-100 group-hover:underline">
+                      {doc.title}
+                    </div>
+                    <div className="text-[11px] font-mono text-indigo-400 mt-0.5">
+                      {doc.fileName}
+                    </div>
+                  </div>
+                </a>
+              ))}
+            </div>
           </div>
 
-          {/* Col 4: Operations Address */}
+          {/* Col 4: Operations Headquarters */}
           <div className="space-y-3 text-sm">
-            <h4 className="text-sm font-bold uppercase tracking-wider text-white">
+            <h4 className="text-sm font-semibold text-vanilla-100">
               Headquarters
             </h4>
-            <p className="text-neutral-400 leading-relaxed">
-              D. No. 6/2921, Karupparayan Kovil St, P.N. Road, Tiruppur, Tamil Nadu — 641602
-            </p>
-            <p className="text-white font-bold text-base">
-              +91 94403 34046
-            </p>
-            <p className="text-emerald-400 font-medium text-xs">
-              Control Room: Open 24/7
+            <div className="flex items-start gap-2.5 text-indigo-300 leading-relaxed">
+              <MapPin
+                className="w-4 h-4 text-vanilla-200 shrink-0 mt-1"
+                strokeWidth={1.5}
+                aria-hidden="true"
+              />
+              <span>{SITE_CONFIG.address.full}</span>
+            </div>
+
+            <div className="space-y-1.5 pt-1">
+              <a
+                href={SITE_CONFIG.contact.primaryPhoneHref}
+                className="flex items-center gap-2.5 text-vanilla-100 font-semibold hover:text-vanilla-50 transition-colors tabular-nums"
+              >
+                <Phone className="w-4 h-4 text-vanilla-200 shrink-0" strokeWidth={1.5} aria-hidden="true" />
+                <span>{SITE_CONFIG.contact.primaryPhoneDisplay}</span>
+              </a>
+              <a
+                href={SITE_CONFIG.contact.secondaryPhoneHref}
+                className="flex items-center gap-2.5 text-indigo-300 hover:text-vanilla-100 transition-colors tabular-nums"
+              >
+                <Phone className="w-4 h-4 text-indigo-400 shrink-0" strokeWidth={1.5} aria-hidden="true" />
+                <span>{SITE_CONFIG.contact.secondaryPhoneDisplay}</span>
+              </a>
+              <a
+                href={SITE_CONFIG.contact.emailHref}
+                className="flex items-center gap-2.5 text-indigo-300 hover:text-vanilla-100 transition-colors"
+              >
+                <Mail className="w-4 h-4 text-vanilla-200 shrink-0" strokeWidth={1.5} aria-hidden="true" />
+                <span>{SITE_CONFIG.contact.email}</span>
+              </a>
+            </div>
+
+            <p className="text-status-live font-medium text-xs pt-1 flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-status-live" aria-hidden="true" />
+              <span>{SITE_CONFIG.contact.hours}</span>
             </p>
           </div>
         </div>
 
         {/* Legal Disclaimer */}
-        <div className="pt-6 border-t border-white/5 text-xs text-neutral-400 leading-relaxed font-light">
-          <strong>Civilian Security Force Disclaimer:</strong> Black Cat Commando Security Force (BCC Security Services) is a private commercial security agency independently certified under ISO 9001:2015. The agency is a civilian commercial contractor and has NO affiliation, sponsorship, or association with the National Security Guard (NSG), Indian Armed Forces, Ministry of Home Affairs, or State Police forces.
+        <div className="pt-6 border-t border-vanilla-100/10 text-xs text-indigo-400 leading-relaxed">
+          <strong className="text-indigo-200 font-medium">
+            Civilian Security Force Disclaimer:
+          </strong>{" "}
+          Black Cat Commando Security Force (BCC Security Services) is a private commercial security agency independently certified under ISO 9001:2015. The agency is a civilian commercial contractor and has no affiliation, sponsorship, or association with the National Security Guard (NSG), Indian Armed Forces, Ministry of Home Affairs, or State Police forces.
         </div>
 
         {/* Copyright */}
-        <div className="pt-4 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between text-xs text-neutral-500 gap-2">
-          <span>© 2026 Black Cat Commando Security Force. All rights reserved.</span>
-          <div className="flex gap-4">
-            <Link href="/privacy" className="hover:text-neutral-300">Privacy Policy</Link>
-            <Link href="/terms" className="hover:text-neutral-300">Terms & Conditions</Link>
+        <div className="pt-4 border-t border-vanilla-100/10 flex flex-col sm:flex-row items-center justify-between text-xs text-indigo-400 gap-2">
+          <span>© 2026 {SITE_CONFIG.companyName}. All rights reserved.</span>
+          <div className="flex gap-5">
+            <Link href="/privacy" className="hover:text-vanilla-100 transition-colors">
+              Privacy Policy
+            </Link>
+            <Link href="/terms" className="hover:text-vanilla-100 transition-colors">
+              Terms & Conditions
+            </Link>
           </div>
         </div>
       </div>
