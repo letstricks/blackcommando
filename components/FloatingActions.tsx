@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { MessageCircle, Phone, ClipboardList } from "lucide-react";
+import { Phone, MessageCircle, ShieldCheck } from "lucide-react";
 import QuoteModal from "./QuoteModal";
 import { SITE_CONFIG, buildWhatsappUrl } from "@/lib/site-data";
 import { EDITORIAL_EASE } from "./MotionPrimitives";
@@ -10,46 +10,54 @@ import { EDITORIAL_EASE } from "./MotionPrimitives";
 export default function FloatingActions() {
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
 
-  const whatsappHref = buildWhatsappUrl(
-    "Hello Black Cat Commando Security Force, I would like to inquire about security services."
-  );
-
   return (
     <>
-      <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 flex flex-col items-end gap-2.5">
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.45, delay: 0.35, ease: EDITORIAL_EASE }}
+        className="fixed bottom-4 right-4 z-40 flex flex-col items-end gap-2.5"
+      >
         <motion.button
           type="button"
-          whileTap={{ scale: 0.98 }}
-          transition={{ duration: 0.14, ease: EDITORIAL_EASE }}
+          whileHover={{ y: -2, scale: 1.01 }}
+          whileTap={{ scale: 0.97 }}
+          transition={{ duration: 0.16, ease: EDITORIAL_EASE }}
           onClick={() => setIsQuoteOpen(true)}
-          className="hidden md:inline-flex h-11 px-4 rounded-lg bg-vanilla-100 hover:bg-vanilla-50 text-indigo-800 border border-indigo-800/20 font-semibold text-xs items-center gap-2 shadow-lg transition-colors duration-150 cursor-pointer"
+          className="h-10 px-4 rounded-xl bg-indigo-900/90 backdrop-blur-xl border border-gold-400/45 text-vanilla-50 text-xs font-semibold shadow-2xl inline-flex items-center gap-2 cursor-pointer"
         >
-          <ClipboardList className="w-4 h-4" strokeWidth={1.5} aria-hidden="true" />
+          <ShieldCheck className="w-4 h-4 text-gold-400" strokeWidth={1.6} aria-hidden="true" />
           <span>Get Free Assessment</span>
         </motion.button>
 
-        <div className="flex items-center gap-2">
-          <a
+        <div className="flex items-center gap-2.5">
+          <motion.a
+            whileHover={{ y: -2 }}
+            whileTap={{ scale: 0.96 }}
+            transition={{ duration: 0.16, ease: EDITORIAL_EASE }}
             href={SITE_CONFIG.contact.primaryPhoneHref}
             aria-label={`Call ${SITE_CONFIG.contact.primaryPhoneDisplay}`}
-            title={`Call ${SITE_CONFIG.contact.primaryPhoneDisplay}`}
-            className="w-11 h-11 rounded-lg bg-indigo-900 hover:bg-indigo-700 border border-vanilla-100/20 text-vanilla-100 flex items-center justify-center shadow-lg transition-colors duration-150"
+            className="w-11 h-11 rounded-xl bg-indigo-900/90 backdrop-blur-xl border border-vanilla-100/20 text-gold-300 shadow-xl flex items-center justify-center"
           >
-            <Phone className="w-4 h-4" strokeWidth={1.5} aria-hidden="true" />
-          </a>
+            <Phone className="w-4 h-4" strokeWidth={1.8} />
+          </motion.a>
 
-          <a
-            href={whatsappHref}
+          <motion.a
+            whileHover={{ y: -2 }}
+            whileTap={{ scale: 0.96 }}
+            transition={{ duration: 0.16, ease: EDITORIAL_EASE }}
+            href={buildWhatsappUrl(
+              "Hello Black Cat Commando, I need security guard services in Tamil Nadu."
+            )}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="WhatsApp Operations"
-            title="WhatsApp Operations"
-            className="w-11 h-11 rounded-lg bg-indigo-950 hover:bg-indigo-700 border border-vanilla-100/25 text-status-live flex items-center justify-center shadow-lg transition-colors duration-150"
+            aria-label="Chat on WhatsApp"
+            className="w-11 h-11 rounded-xl bg-gold-400 text-indigo-950 shadow-xl flex items-center justify-center"
           >
-            <MessageCircle className="w-5 h-5" strokeWidth={1.5} aria-hidden="true" />
-          </a>
+            <MessageCircle className="w-5 h-5" strokeWidth={1.8} />
+          </motion.a>
         </div>
-      </div>
+      </motion.div>
 
       <QuoteModal isOpen={isQuoteOpen} onClose={() => setIsQuoteOpen(false)} />
     </>

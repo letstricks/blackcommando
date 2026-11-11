@@ -21,11 +21,11 @@ export default function PrivacyPage() {
         <span>Return to Home</span>
       </Link>
 
-      <div className="bg-indigo-900 border border-vanilla-100/15 rounded-2xl p-8 sm:p-10 space-y-6">
+      <div className="glass-indigo rounded-3xl p-8 sm:p-10 space-y-6 shadow-2xl">
         <div className="flex items-center gap-3 pb-4 border-b border-vanilla-100/12">
-          <ShieldCheck className="w-7 h-7 text-vanilla-100" strokeWidth={1.5} aria-hidden="true" />
+          <ShieldCheck className="w-7 h-7 text-gold-400" strokeWidth={1.5} aria-hidden="true" />
           <div>
-            <h1 className="font-display text-2xl sm:text-3xl font-semibold text-vanilla-100 tracking-tight">
+            <h1 className="font-display text-2xl sm:text-3xl font-bold text-vanilla-50 tracking-tight">
               Privacy Policy
             </h1>
             <p className="text-xs text-indigo-300 font-mono mt-0.5">
@@ -35,7 +35,7 @@ export default function PrivacyPage() {
         </div>
 
         <div className="space-y-4 text-sm text-indigo-200 leading-relaxed">
-          <h2 className="font-display text-lg font-semibold text-vanilla-100">
+          <h2 className="font-display text-lg font-bold text-vanilla-50">
             1. Information We Collect
           </h2>
           <p>
@@ -45,7 +45,7 @@ export default function PrivacyPage() {
             {SITE_CONFIG.address.full}.
           </p>
 
-          <h2 className="font-display text-lg font-semibold text-vanilla-100">
+          <h2 className="font-display text-lg font-bold text-vanilla-50">
             2. Use of Security Assessment Data
           </h2>
           <p>
@@ -55,8 +55,8 @@ export default function PrivacyPage() {
             commercial third parties.
           </p>
 
-          <h2 className="font-display text-lg font-semibold text-vanilla-100">
-            3. Candidate & Personnel Verification
+          <h2 className="font-display text-lg font-bold text-vanilla-50">
+            3. Candidate &amp; Personnel Verification
           </h2>
           <p>
             Job application data is used strictly for recruitment background
@@ -64,7 +64,7 @@ export default function PrivacyPage() {
             PF/ESI registration.
           </p>
 
-          <h2 className="font-display text-lg font-semibold text-vanilla-100">
+          <h2 className="font-display text-lg font-bold text-vanilla-50">
             4. Statutory Transparency
           </h2>
           <p>
@@ -73,27 +73,27 @@ export default function PrivacyPage() {
             private security contractors.
           </p>
 
-          <h2 className="font-display text-lg font-semibold text-vanilla-100">
+          <h2 className="font-display text-lg font-bold text-vanilla-50">
             5. Contact Our Privacy Cell
           </h2>
           <p>
             For inquiries regarding client data, contact:
             <br />
-            <strong className="text-vanilla-100">{SITE_CONFIG.companyName}</strong>
+            <strong className="text-vanilla-50">{SITE_CONFIG.companyName}</strong>
             <br />
             {SITE_CONFIG.address.full}
             <br />
             Mobile:{" "}
             <a
               href={SITE_CONFIG.contact.primaryPhoneHref}
-              className="text-vanilla-100 underline tabular-nums"
+              className="text-gold-300 underline tabular-nums"
             >
               {SITE_CONFIG.contact.primaryPhoneDisplay}
             </a>{" "}
             /{" "}
             <a
               href={SITE_CONFIG.contact.secondaryPhoneHref}
-              className="text-vanilla-100 underline tabular-nums"
+              className="text-gold-300 underline tabular-nums"
             >
               {SITE_CONFIG.contact.secondaryPhoneDisplay}
             </a>
@@ -101,7 +101,7 @@ export default function PrivacyPage() {
             Email:{" "}
             <a
               href={SITE_CONFIG.contact.emailHref}
-              className="text-vanilla-100 underline"
+              className="text-gold-300 underline"
             >
               {SITE_CONFIG.contact.email}
             </a>

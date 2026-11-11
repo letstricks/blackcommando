@@ -3,182 +3,212 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
-import { Phone, MessageCircle, Menu, X } from "lucide-react";
+import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
+import { Menu, X, FileDown, Phone, ArrowRight } from "lucide-react";
 import Logo from "./Logo";
 import QuoteModal from "./QuoteModal";
-import { SITE_CONFIG, buildWhatsappUrl } from "@/lib/site-data";
+import { SITE_CONFIG } from "@/lib/site-data";
 import { EDITORIAL_EASE } from "./MotionPrimitives";
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
   const pathname = usePathname();
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [isQuoteOpen, setIsQuoteOpen] = useState(false);
+
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 180,
+    damping: 30,
+    restDelta: 0.001,
+  });
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 16);
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const navLinks = [
-    { num: "01", label: "Services", href: "/services" },
-    { num: "02", label: "About", href: "/about" },
-    { num: "03", label: "Why Us", href: "/why-choose-us" },
-    { num: "04", label: "Industries", href: "/industries" },
-    { num: "05", label: "Careers", href: "/careers" },
-    { num: "06", label: "Contact", href: "/contact" },
-  ];
+  useEffect(() => {
+    setIsOpen(false);
+  }, [pathname]);
 
-  const whatsappHref = buildWhatsappUrl(
-    "Hello Black Cat Commando Security Force, I would like to request a security deployment quote."
-  );
+  const navLinks = [
+    { name: "Home", href: "/" },
+    { name: "Services", href: "/services" },
+    { name: "About", href: "/about" },
+    { name: "Why Us", href: "/why-choose-us" },
+    { name: "Industries", href: "/industries" },
+    { name: "Careers", href: "/careers" },
+    { name: "Contact", href: "/contact" },
+  ];
 
   return (
     <>
       <header
-        className={`sticky top-0 z-40 transition-[background-color,border-color] duration-200 ease-editorial ${
+        className={`sticky top-0 z-50 transition-all duration-300 ${
           scrolled
-            ? "bg-indigo-800/95 backdrop-blur-md border-b border-vanilla-100/15"
-            : "bg-indigo-800 border-b border-vanilla-100/10"
+            ? "bg-indigo-950/78 backdrop-blur-xl border-b border-vanilla-100/15 shadow-2xl"
+            : "bg-indigo-800/80 backdrop-blur-lg border-b border-vanilla-100/10"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
-          <Logo variant="horizontal" />
+        {/* Top Scroll Progress Beam */}
+        <motion.div
+          style={{ scaleX }}
+          className="h-[2px] w-full origin-left bg-gold-400"
+          aria-hidden="true"
+        />
 
-          <nav aria-label="Primary navigation" className="hidden lg:flex items-center gap-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-[70px] flex items-center justify-between gap-4">
+          {/* Brand Crest + Name */}
+          <Link
+            href="/"
+            className="flex items-center gap-3 shrink-0 group whitespace-nowrap"
+          >
+            <Logo className="w-10 h-10 transition-transform duration-200 group-hover:scale-105" />
+            <div className="leading-none">
+              <span className="font-display font-bold text-sm sm:text-base tracking-tight text-vanilla-50 block">
+                Black Cat Commando
+              </span>
+              <span className="font-mono text-[10px] tracking-[0.16em] uppercase text-gold-300 block mt-1">
+                Security Force
+              </span>
+            </div>
+          </Link>
+
+          {/* Single-Row Clean Navigation */}
+          <nav
+            aria-label="Primary navigation"
+            className="hidden lg:flex items-center gap-1 whitespace-nowrap"
+          >
             {navLinks.map((link) => {
               const isActive = pathname === link.href;
               return (
                 <Link
-                  key={link.href}
+                  key={link.name}
                   href={link.href}
-                  className={`relative py-2 text-sm font-medium transition-colors duration-150 flex items-center gap-1.5 ${
+                  className={`relative px-3 py-2 text-xs sm:text-[13px] font-medium rounded-lg transition-colors duration-150 whitespace-nowrap shrink-0 ${
                     isActive
-                      ? "text-vanilla-100"
-                      : "text-indigo-300 hover:text-vanilla-100"
+                      ? "text-vanilla-50"
+                      : "text-indigo-200 hover:text-vanilla-50"
                   }`}
                 >
-                  <span className="font-mono text-xs text-indigo-400 tabular-nums">
-                    {link.num}
-                  </span>
-                  <span>{link.label}</span>
                   {isActive && (
                     <motion.span
-                      layoutId="nav-active-underline"
-                      transition={{ duration: 0.22, ease: EDITORIAL_EASE }}
-                      className="absolute inset-x-0 bottom-0 h-0.5 bg-vanilla-100 rounded-full"
+                      layoutId="nav-active-pill"
+                      transition={{ duration: 0.26, ease: EDITORIAL_EASE }}
+                      className="absolute inset-x-2 -bottom-0.5 h-[2px] rounded-full bg-gold-400"
                     />
                   )}
+                  <span>{link.name}</span>
                 </Link>
               );
             })}
           </nav>
 
-          <div className="hidden sm:flex items-center gap-2.5">
+          {/* Right Utility Actions */}
+          <div className="hidden lg:flex items-center gap-2.5 shrink-0">
+            <a
+              href={SITE_CONFIG.documents[0].href}
+              download={SITE_CONFIG.documents[0].fileName}
+              className="h-9 px-3.5 rounded-xl glass-indigo-soft hover:border-gold-400/50 text-vanilla-50 text-xs font-medium inline-flex items-center gap-1.5 transition-colors duration-150 whitespace-nowrap shrink-0"
+            >
+              <FileDown className="w-3.5 h-3.5 text-gold-400" strokeWidth={1.6} aria-hidden="true" />
+              <span>Quotation PDF</span>
+            </a>
+
             <a
               href={SITE_CONFIG.contact.primaryPhoneHref}
-              className="w-10 h-10 rounded-lg bg-indigo-900 border border-vanilla-100/15 text-vanilla-100 flex items-center justify-center hover:bg-indigo-700 hover:border-vanilla-100/30 transition-colors duration-150"
               aria-label={`Call ${SITE_CONFIG.contact.primaryPhoneDisplay}`}
-              title={`Call ${SITE_CONFIG.contact.primaryPhoneDisplay}`}
+              className="h-9 w-9 rounded-xl glass-indigo-soft hover:border-gold-400/50 text-gold-300 inline-flex items-center justify-center transition-colors duration-150 shrink-0"
             >
-              <Phone className="w-4 h-4" strokeWidth={1.5} aria-hidden="true" />
+              <Phone className="w-3.5 h-3.5" strokeWidth={1.6} />
             </a>
 
-            <a
-              href={whatsappHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-10 h-10 rounded-lg bg-indigo-900 border border-vanilla-100/15 text-vanilla-100 flex items-center justify-center hover:bg-indigo-700 hover:border-vanilla-100/30 transition-colors duration-150"
-              aria-label="Message on WhatsApp"
-              title="Message on WhatsApp"
-            >
-              <MessageCircle className="w-4 h-4" strokeWidth={1.5} aria-hidden="true" />
-            </a>
-
-            <motion.button
+            <button
               type="button"
-              whileTap={{ scale: 0.98 }}
-              transition={{ duration: 0.14, ease: EDITORIAL_EASE }}
-              onClick={() => setIsQuoteModalOpen(true)}
-              className="h-10 px-4 rounded-lg bg-vanilla-100 hover:bg-vanilla-50 text-indigo-800 text-sm font-semibold transition-colors duration-150 cursor-pointer"
+              onClick={() => setIsQuoteOpen(true)}
+              className="relative overflow-hidden shimmer-on-hover h-9 px-4 rounded-xl bg-vanilla-100 hover:bg-vanilla-50 text-indigo-950 text-xs font-bold inline-flex items-center gap-1.5 transition-colors duration-150 cursor-pointer whitespace-nowrap shrink-0 shadow-md"
             >
-              Get Quote
-            </motion.button>
+              <span>Request Quote</span>
+              <ArrowRight className="w-3.5 h-3.5" strokeWidth={1.8} aria-hidden="true" />
+            </button>
           </div>
 
+          {/* Mobile Menu Toggle */}
           <button
             type="button"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden w-11 h-11 rounded-lg flex items-center justify-center text-vanilla-100 hover:bg-indigo-700 transition-colors duration-150 cursor-pointer"
-            aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
-            aria-expanded={mobileMenuOpen}
+            onClick={() => setIsOpen((v) => !v)}
+            className="lg:hidden h-10 w-10 rounded-xl glass-indigo-soft text-vanilla-50 inline-flex items-center justify-center cursor-pointer"
+            aria-expanded={isOpen}
+            aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
           >
-            {mobileMenuOpen ? (
-              <X className="w-5 h-5" strokeWidth={1.5} aria-hidden="true" />
+            {isOpen ? (
+              <X className="w-5 h-5" strokeWidth={1.6} />
             ) : (
-              <Menu className="w-5 h-5" strokeWidth={1.5} aria-hidden="true" />
+              <Menu className="w-5 h-5" strokeWidth={1.6} />
             )}
           </button>
         </div>
 
+        {/* Mobile Drawer */}
         <AnimatePresence>
-          {mobileMenuOpen && (
+          {isOpen && (
             <motion.div
-              initial={{ opacity: 0, y: -6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.18, ease: EDITORIAL_EASE }}
-              className="lg:hidden bg-indigo-900 border-b border-vanilla-100/15 px-4 py-4 space-y-1"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.24, ease: EDITORIAL_EASE }}
+              className="lg:hidden overflow-hidden border-t border-vanilla-100/12 bg-indigo-950/92 backdrop-blur-xl"
             >
-              {navLinks.map((link) => {
-                const isActive = pathname === link.href;
-                return (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150 ${
-                      isActive
-                        ? "bg-indigo-700 text-vanilla-100"
-                        : "text-indigo-200 hover:bg-indigo-800 hover:text-vanilla-100"
-                    }`}
-                  >
-                    <span className="font-mono text-xs text-indigo-400 tabular-nums">
-                      {link.num}
-                    </span>
-                    <span>{link.label}</span>
-                  </Link>
-                );
-              })}
+              <div className="px-4 py-4 space-y-2">
+                {navLinks.map((link) => {
+                  const isActive = pathname === link.href;
+                  return (
+                    <Link
+                      key={link.name}
+                      href={link.href}
+                      onClick={() => setIsOpen(false)}
+                      className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium ${
+                        isActive
+                          ? "bg-gold-400/15 border border-gold-400/35 text-vanilla-50"
+                          : "glass-indigo-soft text-indigo-200 hover:text-vanilla-50"
+                      }`}
+                    >
+                      <span>{link.name}</span>
+                      <ArrowRight className="w-3.5 h-3.5 text-gold-400" aria-hidden="true" />
+                    </Link>
+                  );
+                })}
 
-              <div className="pt-3 mt-2 border-t border-vanilla-100/10 flex flex-col gap-2">
-                <a
-                  href={SITE_CONFIG.contact.primaryPhoneHref}
-                  className="h-11 px-4 rounded-lg border border-vanilla-100/20 text-vanilla-100 text-sm font-medium flex items-center justify-center gap-2 tabular-nums"
-                >
-                  <Phone className="w-4 h-4" strokeWidth={1.5} aria-hidden="true" />
-                  <span>{SITE_CONFIG.contact.primaryPhoneDisplay}</span>
-                </a>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    setIsQuoteModalOpen(true);
-                  }}
-                  className="h-11 px-4 rounded-lg bg-vanilla-100 text-indigo-800 text-sm font-semibold cursor-pointer"
-                >
-                  Request Free Assessment
-                </button>
+                <div className="pt-2 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                  <a
+                    href={SITE_CONFIG.documents[0].href}
+                    download={SITE_CONFIG.documents[0].fileName}
+                    className="h-11 px-4 rounded-xl glass-indigo-soft text-vanilla-50 text-sm font-medium inline-flex items-center justify-center gap-2"
+                  >
+                    <FileDown className="w-4 h-4 text-gold-400" aria-hidden="true" />
+                    <span>Quotation PDF</span>
+                  </a>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsOpen(false);
+                      setIsQuoteOpen(true);
+                    }}
+                    className="h-11 px-4 rounded-xl bg-gold-400 text-indigo-950 text-sm font-bold inline-flex items-center justify-center gap-2 cursor-pointer"
+                  >
+                    <span>Request Quote</span>
+                    <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                  </button>
+                </div>
               </div>
             </motion.div>
           )}
         </AnimatePresence>
       </header>
 
-      <QuoteModal isOpen={isQuoteModalOpen} onClose={() => setIsQuoteModalOpen(false)} />
+      <QuoteModal isOpen={isQuoteOpen} onClose={() => setIsQuoteOpen(false)} />
     </>
   );
 }

@@ -21,13 +21,13 @@ export default function TermsPage() {
         <span>Return to Home</span>
       </Link>
 
-      <div className="bg-indigo-900 border border-vanilla-100/15 rounded-2xl p-8 sm:p-10 space-y-6">
+      <div className="glass-indigo rounded-3xl p-8 sm:p-10 space-y-6 shadow-2xl">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-vanilla-100/12">
           <div className="flex items-center gap-3">
-            <ShieldAlert className="w-7 h-7 text-vanilla-100" strokeWidth={1.5} aria-hidden="true" />
+            <ShieldAlert className="w-7 h-7 text-gold-400" strokeWidth={1.5} aria-hidden="true" />
             <div>
-              <h1 className="font-display text-2xl sm:text-3xl font-semibold text-vanilla-100 tracking-tight">
-                Terms & Service Conditions
+              <h1 className="font-display text-2xl sm:text-3xl font-bold text-vanilla-50 tracking-tight">
+                Terms &amp; Service Conditions
               </h1>
               <p className="text-xs text-indigo-300 font-mono mt-0.5">
                 Commercial Private Security Standard · GST {SITE_CONFIG.credentials.gst}
@@ -38,16 +38,16 @@ export default function TermsPage() {
           <a
             href={SITE_CONFIG.documents[0].href}
             download={SITE_CONFIG.documents[0].fileName}
-            className="h-10 px-4 rounded-lg bg-vanilla-100 hover:bg-vanilla-50 text-indigo-800 text-xs font-semibold inline-flex items-center gap-2 shrink-0 transition-colors"
+            className="h-10 px-4 rounded-xl bg-gold-400 hover:bg-gold-300 text-indigo-950 text-xs font-bold inline-flex items-center gap-2 shrink-0 transition-colors"
           >
-            <FileDown className="w-4 h-4" strokeWidth={1.5} aria-hidden="true" />
-            <span>Download Quotation & Terms PDF</span>
+            <FileDown className="w-4 h-4" strokeWidth={1.6} aria-hidden="true" />
+            <span>Download Quotation &amp; Terms PDF</span>
           </a>
         </div>
 
         <div className="space-y-4 text-sm text-indigo-200 leading-relaxed">
-          <h2 className="font-display text-lg font-semibold text-vanilla-100">
-            1. Legal Entity & Scope of Operations
+          <h2 className="font-display text-lg font-bold text-vanilla-50">
+            1. Legal Entity &amp; Scope of Operations
           </h2>
           <p>
             {SITE_CONFIG.companyName} is a private commercial civilian security
@@ -58,8 +58,8 @@ export default function TermsPage() {
             law enforcement.
           </p>
 
-          <h2 className="font-display text-lg font-semibold text-vanilla-100">
-            2. Deployment, Attendance & Billing Cycle
+          <h2 className="font-display text-lg font-bold text-vanilla-50">
+            2. Deployment, Attendance &amp; Billing Cycle
           </h2>
           <p>
             Security personnel assignments are governed by formal Service
@@ -69,8 +69,8 @@ export default function TermsPage() {
             {SITE_CONFIG.credentials.sac}).
           </p>
 
-          <h2 className="font-display text-lg font-semibold text-vanilla-100">
-            3. Replacement & Supervision Assurance
+          <h2 className="font-display text-lg font-bold text-vanilla-50">
+            3. Replacement &amp; Supervision Assurance
           </h2>
           <p>
             Upon written or telephonic client intimation regarding any deployed
@@ -78,8 +78,8 @@ export default function TermsPage() {
             our supervisory command.
           </p>
 
-          <h2 className="font-display text-lg font-semibold text-vanilla-100">
-            4. Statutory & Non-Solicitation Terms
+          <h2 className="font-display text-lg font-bold text-vanilla-50">
+            4. Statutory &amp; Non-Solicitation Terms
           </h2>
           <p>
             All deployed operatives remain on our payroll with statutory

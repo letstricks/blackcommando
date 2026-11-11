@@ -64,11 +64,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-indigo-800 text-vanilla-100 min-h-screen flex flex-col font-sans selection:bg-vanilla-100 selection:text-indigo-800">
+      <body className="bg-indigo-800 text-vanilla-100 min-h-screen flex flex-col font-sans selection:bg-gold-400 selection:text-indigo-950">
         <MotionProvider>
           <a
             href="#main-content"
-            className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2 focus:rounded-lg focus:bg-vanilla-100 focus:text-indigo-800 focus:font-semibold"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2 focus:rounded-lg focus:bg-vanilla-100 focus:text-indigo-950 focus:font-semibold"
           >
             Skip to main content
           </a>

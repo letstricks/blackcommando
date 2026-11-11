@@ -1,136 +1,145 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
-import { Shield, Eye, Radio, Users, ArrowUpRight } from "lucide-react";
-import QuoteModal from "./QuoteModal";
-import { RevealBlock, StaggerGrid, StaggerItem } from "./MotionPrimitives";
+import { Radio, ShieldCheck, CheckCircle2 } from "lucide-react";
+import {
+  RevealBlock,
+  SplitHeadline,
+  ParallaxMedia,
+} from "./MotionPrimitives";
 
 export default function OperationsShowcase() {
-  const [isQuoteOpen, setIsQuoteOpen] = useState(false);
-  const [selectedService, setSelectedService] = useState<string>(
-    "Armed & Unarmed Guards"
-  );
-
-  const operations = [
-    {
-      id: "command",
-      title: "24/7 Central Command & Control",
-      category: "Command Center",
-      desc: "Centralized monitoring, shift attendance verification, and rapid incident dispatch operating 24 hours a day, 365 days a year.",
-      image: "/command-center.jpg",
-      icon: Eye,
-      metric: "24/7 Dispatch",
-    },
-    {
-      id: "industrial",
-      title: "Industrial & Textile Mill Patrols",
-      category: "Perimeter Security",
-      desc: "Gate-pass verification, textile mill night rounds, shift frisking, and material loss prevention protocols.",
-      image: "/industrial-patrol.jpg",
-      icon: Shield,
-      metric: "120+ Sites Secured",
-    },
-    {
-      id: "vip",
-      title: "Executive Protection & Escort",
-      category: "Close Protection",
-      desc: "Personal security officers (PSO), executive convoy transit, and discreet close protection for corporate leadership.",
-      image: "/vip-escort.jpg",
-      icon: Radio,
-      metric: "Trained PSOs",
-    },
-    {
-      id: "squad",
-      title: "Trained Force & Shift Inspection",
-      category: "Force Discipline",
-      desc: "Daily muster parade, uniform inspection, fire-drill readiness, and strict post discipline across every site.",
-      image: "/guard-squad.jpg",
-      icon: Users,
-      metric: "Police Verified",
-    },
-  ];
-
-  const handleOpenQuote = (title: string) => {
-    setSelectedService(title);
-    setIsQuoteOpen(true);
-  };
-
   return (
-    <section className="py-20 sm:py-24 bg-indigo-900 border-b border-vanilla-100/10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <RevealBlock className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-          <div className="space-y-3 max-w-2xl">
-            <p className="font-mono text-xs text-indigo-300 tracking-wide">
-              04 · Field Operations
-            </p>
-            <h2 className="font-display text-3xl sm:text-5xl font-semibold tracking-tight text-vanilla-100 leading-[1.1]">
-              Vigilance in action across Tamil Nadu
-            </h2>
-          </div>
-          <p className="text-sm sm:text-base text-indigo-200 max-w-md leading-relaxed">
-            Structured field procedures spanning manufacturing units, executive
-            transit, and centralized supervision.
+    <section
+      id="operations"
+      className="relative overflow-hidden bg-indigo-950 border-b border-vanilla-100/12"
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-10 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-vanilla-100/12">
+        <div className="space-y-2 max-w-2xl">
+          <p className="font-mono text-xs text-gold-300 tracking-[0.16em] uppercase">
+            Field Operations
           </p>
-        </RevealBlock>
-
-        <StaggerGrid className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {operations.map((op) => {
-            const Icon = op.icon;
-            return (
-              <StaggerItem key={op.id}>
-                <button
-                  type="button"
-                  onClick={() => handleOpenQuote(op.title)}
-                  className="group relative w-full text-left rounded-2xl overflow-hidden border border-vanilla-100/12 hover:border-vanilla-100/35 bg-indigo-950 flex flex-col justify-end min-h-[380px] sm:min-h-[420px] transition-[border-color] duration-150 cursor-pointer"
-                >
-                  <div className="absolute inset-0 z-0">
-                    <Image
-                      src={op.image}
-                      alt={op.title}
-                      fill
-                      sizes="(max-width: 1024px) 100vw, 50vw"
-                      className="object-cover object-center opacity-80 group-hover:opacity-90 transition-opacity duration-200"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-indigo-950 via-indigo-950/75 to-indigo-950/20" />
-                  </div>
-
-                  <div className="relative z-10 p-6 sm:p-8 space-y-3">
-                    <div className="flex items-center justify-between gap-4">
-                      <div className="inline-flex items-center gap-2 text-xs font-mono text-indigo-200">
-                        <Icon className="w-4 h-4" strokeWidth={1.5} aria-hidden="true" />
-                        <span>{op.category}</span>
-                        <span className="text-indigo-400" aria-hidden="true">
-                          ·
-                        </span>
-                        <span className="text-vanilla-100">{op.metric}</span>
-                      </div>
-
-                      <div className="w-9 h-9 rounded-lg bg-indigo-900/90 border border-vanilla-100/20 flex items-center justify-center text-vanilla-100 group-hover:bg-vanilla-100 group-hover:text-indigo-800 transition-colors duration-150 shrink-0">
-                        <ArrowUpRight className="w-4 h-4" strokeWidth={1.5} aria-hidden="true" />
-                      </div>
-                    </div>
-
-                    <h3 className="font-display text-xl sm:text-2xl font-semibold text-vanilla-100 leading-snug">
-                      {op.title}
-                    </h3>
-
-                    <p className="text-sm text-indigo-200 leading-relaxed max-w-xl">
-                      {op.desc}
-                    </p>
-                  </div>
-                </button>
-              </StaggerItem>
-            );
-          })}
-        </StaggerGrid>
+          <SplitHeadline
+            as="h2"
+            text="Supervised deployment from gatehouse to perimeter"
+            className="font-display text-3xl sm:text-5xl font-bold tracking-[-0.025em] text-vanilla-50 leading-[1.06]"
+          />
+        </div>
+        <p className="text-sm text-indigo-200 max-w-sm">
+          Supported by day and night supervisory checks, scheduled shift
+          relievers, and our Tiruppur 24/7 operations desk.
+        </p>
       </div>
 
-      <QuoteModal
-        isOpen={isQuoteOpen}
-        onClose={() => setIsQuoteOpen(false)}
-        defaultService={selectedService}
-      />
+      {/* Seamless Edge-to-Edge 1px Hairline Media Mosaic */}
+      <RevealBlock className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-px bg-vanilla-100/15">
+        <div className="lg:col-span-7 relative min-h-[380px] sm:min-h-[460px] overflow-hidden bg-indigo-950">
+          <ParallaxMedia yRange={24} className="absolute inset-0">
+            <Image
+              src="/guard-squad.jpg"
+              alt="Black Cat Commando Security Force uniformed squadron parade muster"
+              fill
+              sizes="(max-width: 1024px) 100vw, 58vw"
+              className="object-cover"
+            />
+          </ParallaxMedia>
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(23,25,45,0.16) 0%, rgba(23,25,45,0.52) 55%, rgba(23,25,45,0.92) 100%)",
+            }}
+          />
+
+          <div className="relative z-10 h-full min-h-[380px] sm:min-h-[460px] p-8 flex flex-col justify-between">
+            <div className="flex items-center justify-between gap-3">
+              <span className="font-mono text-xs text-gold-300 inline-flex items-center gap-2 bg-indigo-950/75 px-3 py-1 rounded">
+                <Radio className="w-3.5 h-3.5 text-gold-400" aria-hidden="true" />
+                <span>Tiruppur HQ · Mobile Supervision</span>
+              </span>
+              <span className="font-mono text-xs text-status-live bg-indigo-950/75 px-3 py-1 rounded">
+                Open 24 Hours
+              </span>
+            </div>
+
+            <div className="max-w-lg">
+              <p className="font-mono text-[11px] text-gold-300 mb-1.5">
+                Field Command &amp; Reliever Audits
+              </p>
+              <h3 className="font-display text-2xl sm:text-3xl font-bold text-vanilla-50 leading-tight">
+                24/7 supervisory rounds &amp; gate checks
+              </h3>
+              <p className="mt-2 text-sm text-indigo-200">
+                Day and night inspections across spinning mills, plants,
+                warehouses, and gated communities.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="lg:col-span-5 grid grid-cols-1 gap-px bg-vanilla-100/15">
+          <div className="relative min-h-[225px] overflow-hidden bg-indigo-950">
+            <ParallaxMedia yRange={18} className="absolute inset-0">
+              <Image
+                src="/command-center.jpg"
+                alt="Security surveillance and gate monitoring array"
+                fill
+                sizes="(max-width: 1024px) 100vw, 40vw"
+                className="object-cover"
+              />
+            </ParallaxMedia>
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(180deg, rgba(23,25,45,0.22) 0%, rgba(23,25,45,0.88) 100%)",
+              }}
+            />
+            <div className="relative z-10 h-full min-h-[225px] p-7 flex items-end justify-between gap-3">
+              <div>
+                <p className="font-mono text-[11px] text-gold-300">
+                  Access Control
+                </p>
+                <h3 className="font-display text-xl font-bold text-vanilla-50">
+                  Visitor &amp; material pass logging
+                </h3>
+              </div>
+              <CheckCircle2 className="w-5 h-5 text-gold-400 shrink-0" aria-hidden="true" />
+            </div>
+          </div>
+
+          <div className="relative min-h-[225px] overflow-hidden bg-indigo-950">
+            <ParallaxMedia yRange={18} className="absolute inset-0">
+              <Image
+                src="/hero-security.jpg"
+                alt="High-security vault and perimeter access protection"
+                fill
+                sizes="(max-width: 1024px) 100vw, 40vw"
+                className="object-cover"
+              />
+            </ParallaxMedia>
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(180deg, rgba(23,25,45,0.22) 0%, rgba(23,25,45,0.88) 100%)",
+              }}
+            />
+            <div className="relative z-10 h-full min-h-[225px] p-7 flex items-end justify-between gap-3">
+              <div>
+                <p className="font-mono text-[11px] text-gold-300">
+                  Asset Safeguard
+                </p>
+                <h3 className="font-display text-xl font-bold text-vanilla-50">
+                  Strict perimeter &amp; lockup discipline
+                </h3>
+              </div>
+              <ShieldCheck className="w-5 h-5 text-gold-400 shrink-0" aria-hidden="true" />
+            </div>
+          </div>
+        </div>
+      </RevealBlock>
     </section>
   );
 }

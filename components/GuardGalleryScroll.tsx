@@ -1,147 +1,165 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
-import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
-import QuoteModal from "./QuoteModal";
+import { motion, AnimatePresence } from "framer-motion";
+import { ShieldCheck, CheckCircle2 } from "lucide-react";
 import { GUARD_PROFILES } from "@/lib/site-data";
-import { RevealBlock, EDITORIAL_EASE } from "./MotionPrimitives";
+import {
+  EDITORIAL_EASE,
+  RevealBlock,
+  SplitHeadline,
+} from "./MotionPrimitives";
+
+const GUARD_TAB_LABELS: Record<string, string> = {
+  armed: "Armed Guard",
+  radio: "Patrol Comms",
+  attention: "Industrial Gate",
+  salute: "Executive Guard",
+};
 
 export default function GuardGalleryScroll() {
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [isQuoteOpen, setIsQuoteOpen] = useState(false);
-  const [selectedRole, setSelectedRole] = useState<string>(GUARD_PROFILES[0].title);
-
-  const scroll = (direction: "left" | "right") => {
-    if (scrollContainerRef.current) {
-      const scrollAmount = direction === "left" ? -380 : 380;
-      scrollContainerRef.current.scrollBy({
-        left: scrollAmount,
-        behavior: "smooth",
-      });
-    }
-  };
-
-  const handleOpenQuote = (role: string) => {
-    setSelectedRole(role);
-    setIsQuoteOpen(true);
-  };
+  const [selectedIdx, setSelectedIdx] = useState(0);
+  const selectedProfile = GUARD_PROFILES[selectedIdx];
 
   return (
-    <section className="py-20 sm:py-24 bg-indigo-800 border-b border-vanilla-100/10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <RevealBlock className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-          <div className="space-y-3 max-w-2xl">
-            <p className="font-mono text-xs text-indigo-300 tracking-wide">
-              02 · Uniformed Cadre
-            </p>
-            <h2 className="font-display text-3xl sm:text-5xl font-semibold tracking-tight text-vanilla-100 leading-[1.1]">
-              Security force in uniform
-            </h2>
-            <p className="text-sm sm:text-base text-indigo-200 leading-relaxed">
-              Verified personnel deployed across industrial gates, control desks,
-              and corporate lobbies in clean standard-issue uniforms.
-            </p>
-          </div>
-
-          <div className="flex items-center gap-2 shrink-0">
-            <motion.button
-              type="button"
-              whileTap={{ scale: 0.96 }}
-              transition={{ duration: 0.14, ease: EDITORIAL_EASE }}
-              onClick={() => scroll("left")}
-              aria-label="Scroll guard profiles left"
-              className="w-11 h-11 rounded-lg bg-indigo-900 border border-vanilla-100/20 text-vanilla-100 flex items-center justify-center hover:bg-indigo-700 transition-colors duration-150 cursor-pointer"
-            >
-              <ChevronLeft className="w-5 h-5" strokeWidth={1.5} aria-hidden="true" />
-            </motion.button>
-            <motion.button
-              type="button"
-              whileTap={{ scale: 0.96 }}
-              transition={{ duration: 0.14, ease: EDITORIAL_EASE }}
-              onClick={() => scroll("right")}
-              aria-label="Scroll guard profiles right"
-              className="w-11 h-11 rounded-lg bg-indigo-900 border border-vanilla-100/20 text-vanilla-100 flex items-center justify-center hover:bg-indigo-700 transition-colors duration-150 cursor-pointer"
-            >
-              <ChevronRight className="w-5 h-5" strokeWidth={1.5} aria-hidden="true" />
-            </motion.button>
-          </div>
-        </RevealBlock>
+    <section
+      id="team"
+      className="light-surface relative bg-vanilla-100 border-b border-indigo-800/15"
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20 pb-8 flex flex-col lg:flex-row lg:items-end justify-between gap-6 border-b border-indigo-800/12">
+        <div className="space-y-2 max-w-2xl">
+          <p className="font-mono text-xs text-gold-600 font-semibold tracking-[0.16em] uppercase">
+            Uniformed Force Lineup
+          </p>
+          <SplitHeadline
+            as="h2"
+            text="Clean turnout, disciplined field presence"
+            className="font-display text-3xl sm:text-5xl font-bold tracking-[-0.025em] text-indigo-900 leading-[1.06]"
+          />
+        </div>
 
         <div
-          ref={scrollContainerRef}
-          className="flex gap-6 overflow-x-auto pb-4 scroll-smooth snap-x snap-mandatory"
-          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+          role="tablist"
+          aria-label="Inspect security personnel roles"
+          className="flex flex-wrap sm:flex-nowrap gap-1 border border-indigo-800/15 rounded-full p-1 self-start lg:self-auto shrink-0"
         >
-          {GUARD_PROFILES.map((guard) => (
-            <article
-              key={guard.id}
-              className="snap-start shrink-0 w-[300px] sm:w-[330px] rounded-2xl bg-indigo-900 border border-vanilla-100/12 overflow-hidden flex flex-col justify-between"
-            >
-              {/* Clean unobstructed portrait photo frame — zero badges or overlay text */}
-              <div className="p-3 pb-0">
-                <div className="relative h-[340px] w-full rounded-xl bg-vanilla-50 overflow-hidden">
-                  <Image
-                    src={guard.image}
-                    alt={`${guard.title} in clean blue uniform`}
-                    fill
-                    sizes="(max-width: 768px) 300px, 330px"
-                    className="object-cover object-top"
+          {GUARD_PROFILES.map((guard, idx) => {
+            const active = idx === selectedIdx;
+            const shortLabel = GUARD_TAB_LABELS[guard.id] || guard.title;
+            return (
+              <button
+                key={guard.id}
+                type="button"
+                role="tab"
+                aria-selected={active}
+                onClick={() => setSelectedIdx(idx)}
+                className={`relative px-3.5 py-1.5 rounded-full text-[11px] font-mono whitespace-nowrap transition-colors cursor-pointer ${
+                  active
+                    ? "text-vanilla-50 font-semibold"
+                    : "text-indigo-700 hover:text-indigo-950"
+                }`}
+              >
+                {active && (
+                  <motion.span
+                    layoutId="guard-role-pill"
+                    transition={{ duration: 0.25, ease: EDITORIAL_EASE }}
+                    className="absolute inset-0 rounded-full bg-indigo-800 z-0"
                   />
-                </div>
-              </div>
-
-              {/* Structured Role Dossier Below Photo */}
-              <div className="p-6 space-y-4 flex-grow flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center justify-between text-xs font-mono text-indigo-400 mb-2">
-                    <span className="tabular-nums">{guard.num}</span>
-                    <span>{guard.category}</span>
-                  </div>
-
-                  <h3 className="font-display text-lg font-semibold text-vanilla-100 leading-snug">
-                    {guard.title}
-                  </h3>
-
-                  <p className="text-sm text-indigo-300 leading-relaxed mt-2">
-                    {guard.desc}
-                  </p>
-
-                  <ul className="space-y-1.5 pt-4 mt-4 border-t border-vanilla-100/10 text-xs text-indigo-200">
-                    {guard.specs.map((spec) => (
-                      <li key={spec} className="flex items-center gap-2">
-                        <span
-                          className="w-1.5 h-1.5 rounded-full bg-vanilla-100/70 shrink-0"
-                          aria-hidden="true"
-                        />
-                        <span>{spec}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <motion.button
-                  type="button"
-                  whileTap={{ scale: 0.98 }}
-                  transition={{ duration: 0.14, ease: EDITORIAL_EASE }}
-                  onClick={() => handleOpenQuote(guard.title)}
-                  className="w-full h-11 rounded-lg bg-indigo-800 hover:bg-vanilla-100 text-vanilla-100 hover:text-indigo-800 border border-vanilla-100/20 text-sm font-medium transition-colors duration-150 flex items-center justify-center gap-2 cursor-pointer"
-                >
-                  <span>Request Deployment</span>
-                  <ArrowRight className="w-4 h-4" strokeWidth={1.5} aria-hidden="true" />
-                </motion.button>
-              </div>
-            </article>
-          ))}
+                )}
+                <span className="relative z-10">
+                  {guard.num} {shortLabel}
+                </span>
+              </button>
+            );
+          })}
         </div>
       </div>
 
-      <QuoteModal
-        isOpen={isQuoteOpen}
-        onClose={() => setIsQuoteOpen(false)}
-        defaultService={selectedRole}
-      />
+      {/* Seamless Architectural 4-Column Portrait Ledger Strip (Zero Box Fatigue) */}
+      <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-indigo-800/12 border-b border-indigo-800/12">
+        {GUARD_PROFILES.map((guard, idx) => {
+          const isSelected = idx === selectedIdx;
+          return (
+            <button
+              key={guard.id}
+              type="button"
+              onClick={() => setSelectedIdx(idx)}
+              className={`group text-left flex flex-col transition-colors duration-200 cursor-pointer ${
+                isSelected
+                  ? "bg-indigo-900 text-vanilla-50"
+                  : "bg-vanilla-50/75 hover:bg-white text-indigo-900"
+              }`}
+            >
+              <div className="relative h-80 w-full bg-white overflow-hidden border-b border-indigo-800/12">
+                <Image
+                  src={guard.image}
+                  alt={`${guard.title} — ${guard.category}`}
+                  fill
+                  unoptimized
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                  className="object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+                />
+              </div>
+
+              <div className="p-6 space-y-2.5 flex-grow">
+                <span
+                  className={`font-mono text-[11px] inline-flex items-center gap-1.5 ${
+                    isSelected ? "text-gold-300" : "text-gold-600 font-semibold"
+                  }`}
+                >
+                  <ShieldCheck className="w-3.5 h-3.5" aria-hidden="true" />
+                  <span>
+                    {guard.num} · {guard.category}
+                  </span>
+                </span>
+                <h3 className="font-display text-lg font-bold leading-snug">
+                  {guard.title}
+                </h3>
+                <p
+                  className={`text-xs leading-relaxed ${
+                    isSelected ? "text-indigo-200" : "text-indigo-700"
+                  }`}
+                >
+                  {guard.desc}
+                </p>
+              </div>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Selected Role Specification Ticker */}
+      <RevealBlock className="max-w-7xl mx-auto px-6 py-5">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={selectedProfile.id}
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -4 }}
+            transition={{ duration: 0.22, ease: EDITORIAL_EASE }}
+            className="flex flex-wrap items-center justify-between gap-4"
+          >
+            <div className="flex items-center gap-3">
+              <span className="font-mono text-xs px-2.5 py-1 rounded bg-indigo-800 text-gold-300 font-bold">
+                {selectedProfile.num}
+              </span>
+              <span className="text-sm font-bold text-indigo-900">
+                {selectedProfile.title}
+              </span>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-5 text-xs font-mono text-indigo-800">
+              {selectedProfile.specs.map((spec) => (
+                <span key={spec} className="inline-flex items-center gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-gold-600" aria-hidden="true" />
+                  <span>{spec}</span>
+                </span>
+              ))}
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </RevealBlock>
     </section>
   );
 }

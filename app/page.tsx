@@ -2,14 +2,13 @@ import React from "react";
 import Hero from "@/components/Hero";
 import TrustStrip from "@/components/TrustStrip";
 import ServicesSection from "@/components/ServicesSection";
-import GuardGalleryScroll from "@/components/GuardGalleryScroll";
 import CostCalculator from "@/components/CostCalculator";
+import GuardGalleryScroll from "@/components/GuardGalleryScroll";
 import OperationsShowcase from "@/components/OperationsShowcase";
-import AboutSection from "@/components/AboutSection";
 import WhyChooseUs from "@/components/WhyChooseUs";
-import HowItWorks from "@/components/HowItWorks";
+import AboutSection from "@/components/AboutSection";
 import IndustriesSection from "@/components/IndustriesSection";
-import Testimonials from "@/components/Testimonials";
+import HowItWorks from "@/components/HowItWorks";
 import ContactSection from "@/components/ContactSection";
 
 export default function HomePage() {
@@ -18,14 +17,13 @@ export default function HomePage() {
       <Hero />
       <TrustStrip />
       <ServicesSection />
-      <GuardGalleryScroll />
       <CostCalculator />
+      <GuardGalleryScroll />
       <OperationsShowcase />
-      <AboutSection />
       <WhyChooseUs />
-      <HowItWorks />
+      <AboutSection />
       <IndustriesSection />
-      <Testimonials />
+      <HowItWorks />
       <ContactSection />
     </>
   );

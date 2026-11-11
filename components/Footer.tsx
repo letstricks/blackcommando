@@ -1,163 +1,136 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
-import { FileDown, Phone, Mail, MapPin } from "lucide-react";
+import { Phone, Mail, MapPin, FileDown } from "lucide-react";
 import Logo from "./Logo";
 import { SITE_CONFIG } from "@/lib/site-data";
 
 export default function Footer() {
   return (
-    <footer className="bg-indigo-950 border-t border-vanilla-100/10 py-16 text-indigo-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Col 1: Brand */}
-          <div className="space-y-4">
-            <Logo variant="horizontal" />
-            <p className="text-sm text-indigo-300 leading-relaxed">
-              Disciplined, police-verified private security services for textile mills, industries, residences, and events across Tamil Nadu.
+    <footer className="bg-indigo-950 border-t border-vanilla-100/12 pt-16 pb-10 text-indigo-200">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-vanilla-100/10">
+          <div className="lg:col-span-4 space-y-4">
+            <Link href="/" className="flex items-center gap-3 w-fit">
+              <Logo className="w-10 h-10" />
+              <div className="leading-none">
+                <span className="font-display font-bold text-base text-vanilla-50 block">
+                  Black Cat Commando
+                </span>
+                <span className="font-mono text-[10px] uppercase tracking-wider text-gold-300 block mt-1">
+                  Security Force · Tiruppur
+                </span>
+              </div>
+            </Link>
+            <p className="text-sm text-indigo-200 leading-relaxed max-w-sm">
+              {SITE_CONFIG.tagline} {SITE_CONFIG.credentials.isoStandard}{" "}
+              certified private security agency serving Tamil Nadu 24/7.
             </p>
-            <div className="text-xs font-mono text-indigo-400 space-y-1 tabular-nums">
-              <p>ISO 9001:2015 Cert: {SITE_CONFIG.credentials.certificateNo}</p>
-              <p>
-                GST: {SITE_CONFIG.credentials.gst} · SAC: {SITE_CONFIG.credentials.sac}
-              </p>
-            </div>
-          </div>
-
-          {/* Col 2: Navigation */}
-          <div className="space-y-3">
-            <h4 className="text-sm font-semibold text-vanilla-100">Navigation</h4>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link href="/" className="hover:text-vanilla-100 transition-colors duration-150">
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link href="/about" className="hover:text-vanilla-100 transition-colors duration-150">
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link href="/services" className="hover:text-vanilla-100 transition-colors duration-150">
-                  Our Services
-                </Link>
-              </li>
-              <li>
-                <Link href="/why-choose-us" className="hover:text-vanilla-100 transition-colors duration-150">
-                  Why Choose Us
-                </Link>
-              </li>
-              <li>
-                <Link href="/industries" className="hover:text-vanilla-100 transition-colors duration-150">
-                  Industries Served
-                </Link>
-              </li>
-              <li>
-                <Link href="/careers" className="hover:text-vanilla-100 transition-colors duration-150">
-                  Careers
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="hover:text-vanilla-100 transition-colors duration-150">
-                  Contact
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Col 3: Official Documents & Downloads */}
-          <div className="space-y-3">
-            <h4 className="text-sm font-semibold text-vanilla-100">
-              Official Documents
-            </h4>
-            <div className="space-y-2.5">
+            <div className="flex flex-wrap gap-2">
               {SITE_CONFIG.documents.map((doc) => (
                 <a
                   key={doc.id}
                   href={doc.href}
                   download={doc.fileName}
-                  className="flex items-start gap-2.5 p-3 rounded-lg bg-indigo-900 border border-vanilla-100/12 hover:border-vanilla-100/30 transition-colors duration-150 group"
+                  className="h-9 px-3.5 rounded-xl glass-indigo-soft hover:border-gold-400/50 text-xs font-semibold text-vanilla-50 inline-flex items-center gap-1.5 transition-colors"
                 >
-                  <FileDown
-                    className="w-4 h-4 text-vanilla-100 shrink-0 mt-0.5"
-                    strokeWidth={1.5}
-                    aria-hidden="true"
-                  />
-                  <div>
-                    <div className="text-xs font-semibold text-vanilla-100 group-hover:underline">
-                      {doc.title}
-                    </div>
-                    <div className="text-[11px] font-mono text-indigo-400 mt-0.5">
-                      {doc.fileName}
-                    </div>
-                  </div>
+                  <FileDown className="w-3.5 h-3.5 text-gold-400" aria-hidden="true" />
+                  <span>{doc.shortTitle}</span>
                 </a>
               ))}
             </div>
           </div>
 
-          {/* Col 4: Operations Headquarters */}
-          <div className="space-y-3 text-sm">
-            <h4 className="text-sm font-semibold text-vanilla-100">
-              Headquarters
-            </h4>
-            <div className="flex items-start gap-2.5 text-indigo-300 leading-relaxed">
-              <MapPin
-                className="w-4 h-4 text-vanilla-200 shrink-0 mt-1"
-                strokeWidth={1.5}
-                aria-hidden="true"
-              />
-              <span>{SITE_CONFIG.address.full}</span>
-            </div>
+          <div className="lg:col-span-3 space-y-3">
+            <h3 className="font-mono text-xs uppercase tracking-wider text-gold-300">
+              Navigation
+            </h3>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link href="/services" className="hover:text-vanilla-50 transition-colors">
+                  Services &amp; Capabilities
+                </Link>
+              </li>
+              <li>
+                <Link href="/about" className="hover:text-vanilla-50 transition-colors">
+                  About &amp; Official Documents
+                </Link>
+              </li>
+              <li>
+                <Link href="/why-choose-us" className="hover:text-vanilla-50 transition-colors">
+                  Operational Standards
+                </Link>
+              </li>
+              <li>
+                <Link href="/industries" className="hover:text-vanilla-50 transition-colors">
+                  Sectors Protected
+                </Link>
+              </li>
+              <li>
+                <Link href="/careers" className="hover:text-vanilla-50 transition-colors">
+                  Guard Careers
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact" className="hover:text-vanilla-50 transition-colors">
+                  Contact &amp; Map
+                </Link>
+              </li>
+            </ul>
+          </div>
 
-            <div className="space-y-1.5 pt-1">
-              <a
-                href={SITE_CONFIG.contact.primaryPhoneHref}
-                className="flex items-center gap-2.5 text-vanilla-100 font-semibold hover:text-vanilla-50 transition-colors tabular-nums"
-              >
-                <Phone className="w-4 h-4 text-vanilla-200 shrink-0" strokeWidth={1.5} aria-hidden="true" />
-                <span>{SITE_CONFIG.contact.primaryPhoneDisplay}</span>
-              </a>
-              <a
-                href={SITE_CONFIG.contact.secondaryPhoneHref}
-                className="flex items-center gap-2.5 text-indigo-300 hover:text-vanilla-100 transition-colors tabular-nums"
-              >
-                <Phone className="w-4 h-4 text-indigo-400 shrink-0" strokeWidth={1.5} aria-hidden="true" />
-                <span>{SITE_CONFIG.contact.secondaryPhoneDisplay}</span>
-              </a>
-              <a
-                href={SITE_CONFIG.contact.emailHref}
-                className="flex items-center gap-2.5 text-indigo-300 hover:text-vanilla-100 transition-colors"
-              >
-                <Mail className="w-4 h-4 text-vanilla-200 shrink-0" strokeWidth={1.5} aria-hidden="true" />
-                <span>{SITE_CONFIG.contact.email}</span>
-              </a>
-            </div>
-
-            <p className="text-status-live font-medium text-xs pt-1 flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-status-live" aria-hidden="true" />
-              <span>{SITE_CONFIG.contact.hours}</span>
-            </p>
+          <div className="lg:col-span-5 space-y-3">
+            <h3 className="font-mono text-xs uppercase tracking-wider text-gold-300">
+              24/7 Operations Center
+            </h3>
+            <ul className="space-y-3 text-sm">
+              <li className="flex items-start gap-2.5">
+                <MapPin className="w-4 h-4 text-gold-400 shrink-0 mt-0.5" aria-hidden="true" />
+                <span>{SITE_CONFIG.address.full}</span>
+              </li>
+              <li className="flex items-center gap-2.5 font-mono tabular-nums">
+                <Phone className="w-4 h-4 text-gold-400 shrink-0" aria-hidden="true" />
+                <a
+                  href={SITE_CONFIG.contact.primaryPhoneHref}
+                  className="text-vanilla-50 hover:text-gold-300 transition-colors"
+                >
+                  {SITE_CONFIG.contact.primaryPhoneDisplay}
+                </a>
+                <span className="text-indigo-400">/</span>
+                <a
+                  href={SITE_CONFIG.contact.secondaryPhoneHref}
+                  className="text-vanilla-50 hover:text-gold-300 transition-colors"
+                >
+                  {SITE_CONFIG.contact.secondaryPhoneDisplay}
+                </a>
+              </li>
+              <li className="flex items-center gap-2.5">
+                <Mail className="w-4 h-4 text-gold-400 shrink-0" aria-hidden="true" />
+                <a
+                  href={SITE_CONFIG.contact.emailHref}
+                  className="text-vanilla-50 hover:text-gold-300 transition-colors"
+                >
+                  {SITE_CONFIG.contact.email}
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
 
-        {/* Legal Disclaimer */}
-        <div className="pt-6 border-t border-vanilla-100/10 text-xs text-indigo-400 leading-relaxed">
-          <strong className="text-indigo-200 font-medium">
-            Civilian Security Force Disclaimer:
-          </strong>{" "}
-          Black Cat Commando Security Force (BCC Security Services) is a private commercial security agency independently certified under ISO 9001:2015. The agency is a civilian commercial contractor and has no affiliation, sponsorship, or association with the National Security Guard (NSG), Indian Armed Forces, Ministry of Home Affairs, or State Police forces.
-        </div>
-
-        {/* Copyright */}
-        <div className="pt-4 border-t border-vanilla-100/10 flex flex-col sm:flex-row items-center justify-between text-xs text-indigo-400 gap-2">
-          <span>© 2026 {SITE_CONFIG.companyName}. All rights reserved.</span>
-          <div className="flex gap-5">
-            <Link href="/privacy" className="hover:text-vanilla-100 transition-colors">
+        <div className="pt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs font-mono text-indigo-300">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 tabular-nums">
+            <span>PAN: {SITE_CONFIG.credentials.pan}</span>
+            <span>GST: {SITE_CONFIG.credentials.gst}</span>
+            <span>SAC: {SITE_CONFIG.credentials.sac}</span>
+            <span>GOVT REG: {SITE_CONFIG.credentials.govtReg}</span>
+          </div>
+          <div className="flex items-center gap-5">
+            <Link href="/privacy" className="hover:text-vanilla-50 transition-colors">
               Privacy Policy
             </Link>
-            <Link href="/terms" className="hover:text-vanilla-100 transition-colors">
-              Terms & Conditions
+            <Link href="/terms" className="hover:text-vanilla-50 transition-colors">
+              Terms &amp; Conditions
             </Link>
           </div>
         </div>

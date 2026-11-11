@@ -3,300 +3,284 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Send, CheckCircle2 } from "lucide-react";
-import { SITE_CONFIG } from "@/lib/site-data";
-import { RevealBlock, EDITORIAL_EASE } from "./MotionPrimitives";
+import { Send, CheckCircle2, ShieldCheck } from "lucide-react";
+import { buildWhatsappUrl } from "@/lib/site-data";
+import { EDITORIAL_EASE, RevealBlock, SplitHeadline, ParallaxMedia } from "./MotionPrimitives";
 
 export default function CareersSection() {
   const [formData, setFormData] = useState({
-    name: "",
+    fullName: "",
     phone: "",
     age: "",
-    isExServiceman: "No",
-    location: "",
+    city: "Tiruppur",
     role: "Security Guard",
+    exServiceman: "No (Civilian)",
   });
   const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setSubmitted(true);
-    }, 500);
+    const summary = `Guard Enlistment Application:
+• Full Name: ${formData.fullName}
+• Mobile: ${formData.phone}
+• Age: ${formData.age}
+• Current City: ${formData.city}
+• Preferred Role: ${formData.role}
+• Ex-Serviceman: ${formData.exServiceman}`;
+    window.open(buildWhatsappUrl(summary), "_blank", "noopener,noreferrer");
+    setSubmitted(true);
   };
+
+  const benefits = [
+    {
+      title: "Training & Uniform Kit",
+      desc: "Issued uniform kit, fire safety orientation, and post protocol onboarding before duty assignment.",
+    },
+    {
+      title: "Statutory PF & ESI Benefits",
+      desc: "Timely monthly compensation with Provident Fund and Employees’ State Insurance compliance.",
+    },
+    {
+      title: "Ex-Servicemen Priority",
+      desc: "Direct consideration for Head Guard, Security Officer, and Field Supervisor roles for ex-armed forces personnel.",
+    },
+  ];
 
   return (
     <section
       id="careers"
-      className="py-20 sm:py-24 bg-indigo-800 border-b border-vanilla-100/10"
+      className="relative overflow-hidden bg-indigo-900 border-b border-vanilla-100/12"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
-          {/* Left Narrative */}
-          <RevealBlock className="lg:col-span-6 space-y-6">
-            <div className="space-y-3">
-              <p className="font-mono text-xs text-indigo-300 tracking-wide">
-                Careers & Recruitment
-              </p>
-              <h2 className="font-display text-3xl sm:text-5xl font-semibold tracking-tight text-vanilla-100 leading-[1.1]">
-                Join our security force
-              </h2>
-              <p className="text-sm sm:text-base text-indigo-200 leading-relaxed">
-                We recruit disciplined, physically fit candidates for static
-                guard, armed guard, and supervisory postings across Tiruppur and
-                nearby industrial belts.
-              </p>
-            </div>
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 items-stretch">
+        <RevealBlock className="lg:col-span-6 px-6 sm:px-10 py-16 sm:py-24 space-y-8 lg:border-r border-vanilla-100/12">
+          <div className="space-y-3">
+            <p className="font-mono text-xs text-gold-300 tracking-[0.16em] uppercase">
+              Careers &amp; Recruitment
+            </p>
+            <SplitHeadline
+              as="h2"
+              text="Join our security force"
+              className="font-display text-3xl sm:text-5xl font-bold tracking-[-0.025em] text-vanilla-50 leading-[1.06]"
+            />
+            <p className="text-sm sm:text-base text-indigo-200 leading-relaxed">
+              We recruit disciplined, physically fit candidates for static
+              guard, armed guard, and supervisory postings across Tiruppur and
+              Tamil Nadu.
+            </p>
+          </div>
 
-            <div className="relative rounded-xl overflow-hidden border border-vanilla-100/15 h-56 bg-indigo-900">
+          <div className="relative h-56 sm:h-64 overflow-hidden border border-vanilla-100/12">
+            <ParallaxMedia yRange={22} className="w-full h-full">
               <Image
                 src="/guard-squad.jpg"
-                alt="Security guard training and muster parade"
+                alt="Security force recruitment orientation and muster"
                 fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
+                sizes="(max-width: 1024px) 100vw, 48vw"
                 className="object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-indigo-950/90 via-indigo-950/35 to-transparent" />
-              <div className="absolute bottom-4 left-5 right-5 flex items-end justify-between gap-4">
+            </ParallaxMedia>
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(180deg, rgba(23,25,45,0.12) 0%, rgba(23,25,45,0.88) 100%)",
+              }}
+            />
+            <div className="absolute bottom-4 left-5 right-5 flex items-center justify-between gap-3">
+              <span className="text-sm font-semibold text-vanilla-50">
+                Stable postings with statutory PF &amp; ESI coverage
+              </span>
+              <span className="font-mono text-xs text-status-live shrink-0">
+                Recruiting
+              </span>
+            </div>
+          </div>
+
+          <div className="divide-y divide-vanilla-100/12 border-y border-vanilla-100/12">
+            {benefits.map((b) => (
+              <div key={b.title} className="py-4 flex items-start gap-3.5">
+                <ShieldCheck
+                  className="w-5 h-5 text-gold-400 shrink-0 mt-0.5"
+                  strokeWidth={1.6}
+                  aria-hidden="true"
+                />
                 <div>
-                  <span className="font-mono text-[11px] text-indigo-200 block">
-                    Uniforms & Drilling Provided
-                  </span>
-                  <h3 className="font-display text-base font-semibold text-vanilla-100 mt-0.5">
-                    Stable postings with statutory PF & ESI coverage
+                  <h3 className="text-sm font-bold text-vanilla-50">
+                    {b.title}
                   </h3>
+                  <p className="text-xs sm:text-sm text-indigo-200 mt-1 leading-relaxed">
+                    {b.desc}
+                  </p>
                 </div>
-                <span className="font-mono text-xs text-status-live bg-indigo-950/85 border border-vanilla-100/20 px-2.5 py-1 rounded-md">
-                  Hiring
-                </span>
               </div>
-            </div>
+            ))}
+          </div>
+        </RevealBlock>
 
-            <div className="space-y-3">
-              <div className="p-4 rounded-xl bg-indigo-900 border border-vanilla-100/12">
-                <h3 className="text-sm font-semibold text-vanilla-100 mb-1">
-                  Training & Uniform Kit
+        <RevealBlock delay={0.06} className="lg:col-span-6 bg-indigo-950 p-8 sm:p-12 lg:p-14 flex flex-col justify-center">
+          {submitted ? (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.97 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3, ease: EDITORIAL_EASE }}
+              className="py-12 text-center space-y-4"
+            >
+              <div className="w-12 h-12 rounded-2xl bg-gold-400/20 text-gold-400 flex items-center justify-center mx-auto">
+                <CheckCircle2 className="w-6 h-6" />
+              </div>
+              <h3 className="font-display text-2xl font-bold text-vanilla-50">
+                Application Prepared
+              </h3>
+              <p className="text-sm text-indigo-200 max-w-sm mx-auto">
+                Your enlistment application has been opened in WhatsApp for our
+                Tiruppur recruitment desk.
+              </p>
+              <button
+                type="button"
+                onClick={() => setSubmitted(false)}
+                className="h-10 px-5 rounded-xl border border-vanilla-100/25 text-xs font-semibold text-vanilla-50 hover:border-gold-400 cursor-pointer"
+              >
+                Submit Another Application
+              </button>
+            </motion.div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <h3 className="font-display text-2xl font-bold text-vanilla-50">
+                  Guard Enlistment Application
                 </h3>
-                <p className="text-xs text-indigo-300 leading-relaxed">
-                  Issued uniform kit, fire safety orientation, and post
-                  protocol onboarding before duty assignment.
+                <p className="text-xs text-indigo-300 mt-1">
+                  Submit candidate profile directly to the Tiruppur hiring desk.
                 </p>
               </div>
-              <div className="p-4 rounded-xl bg-indigo-900 border border-vanilla-100/12">
-                <h3 className="text-sm font-semibold text-vanilla-100 mb-1">
-                  Statutory PF & ESI Benefits
-                </h3>
-                <p className="text-xs text-indigo-300 leading-relaxed">
-                  On-time monthly salary disbursements with Provident Fund and
-                  Employees&apos; State Insurance coverage.
-                </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                  <label htmlFor="career-name" className="block font-mono text-[11px] uppercase tracking-wider text-gold-300 mb-1.5">
+                    Full Name *
+                  </label>
+                  <input
+                    id="career-name"
+                    required
+                    type="text"
+                    placeholder="Candidate full name"
+                    value={formData.fullName}
+                    onChange={(e) =>
+                      setFormData({ ...formData, fullName: e.target.value })
+                    }
+                    className="w-full h-11 bg-transparent border-b border-vanilla-100/25 text-sm text-vanilla-50 placeholder:text-indigo-400 focus:border-gold-400 outline-none transition-colors"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="career-phone" className="block font-mono text-[11px] uppercase tracking-wider text-gold-300 mb-1.5">
+                    Mobile Number *
+                  </label>
+                  <input
+                    id="career-phone"
+                    required
+                    type="tel"
+                    placeholder="+91 mobile number"
+                    value={formData.phone}
+                    onChange={(e) =>
+                      setFormData({ ...formData, phone: e.target.value })
+                    }
+                    className="w-full h-11 bg-transparent border-b border-vanilla-100/25 text-sm text-vanilla-50 placeholder:text-indigo-400 focus:border-gold-400 outline-none transition-colors"
+                  />
+                </div>
               </div>
-              <div className="p-4 rounded-xl bg-indigo-900 border border-vanilla-100/12">
-                <h3 className="text-sm font-semibold text-vanilla-100 mb-1">
-                  Ex-Servicemen Priority
-                </h3>
-                <p className="text-xs text-indigo-300 leading-relaxed">
-                  Direct consideration for Head Guard, Security Officer, and
-                  Field Supervisor roles for ex-armed forces personnel.
-                </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                  <label htmlFor="career-age" className="block font-mono text-[11px] uppercase tracking-wider text-gold-300 mb-1.5">
+                    Age *
+                  </label>
+                  <input
+                    id="career-age"
+                    required
+                    type="number"
+                    min={18}
+                    max={60}
+                    placeholder="Age"
+                    value={formData.age}
+                    onChange={(e) =>
+                      setFormData({ ...formData, age: e.target.value })
+                    }
+                    className="w-full h-11 bg-transparent border-b border-vanilla-100/25 text-sm text-vanilla-50 placeholder:text-indigo-400 focus:border-gold-400 outline-none transition-colors"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="career-city" className="block font-mono text-[11px] uppercase tracking-wider text-gold-300 mb-1.5">
+                    Current City *
+                  </label>
+                  <input
+                    id="career-city"
+                    required
+                    type="text"
+                    value={formData.city}
+                    onChange={(e) =>
+                      setFormData({ ...formData, city: e.target.value })
+                    }
+                    className="w-full h-11 bg-transparent border-b border-vanilla-100/25 text-sm text-vanilla-50 placeholder:text-indigo-400 focus:border-gold-400 outline-none transition-colors"
+                  />
+                </div>
               </div>
-            </div>
-          </RevealBlock>
 
-          {/* Right Form */}
-          <RevealBlock
-            delay={0.08}
-            className="lg:col-span-6 bg-indigo-900 border border-vanilla-100/15 rounded-2xl p-6 sm:p-8"
-          >
-            <h3 className="font-display text-xl font-semibold text-vanilla-100 pb-4 mb-6 border-b border-vanilla-100/12">
-              Guard Enlistment Application
-            </h3>
-
-            {submitted ? (
-              <div className="py-10 text-center flex flex-col items-center">
-                <div className="w-12 h-12 rounded-full bg-indigo-800 border border-vanilla-100/20 flex items-center justify-center text-status-live mb-4">
-                  <CheckCircle2 className="w-6 h-6" strokeWidth={1.5} aria-hidden="true" />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                  <label htmlFor="career-role" className="block font-mono text-[11px] uppercase tracking-wider text-gold-300 mb-1.5">
+                    Preferred Role
+                  </label>
+                  <select
+                    id="career-role"
+                    value={formData.role}
+                    onChange={(e) =>
+                      setFormData({ ...formData, role: e.target.value })
+                    }
+                    className="w-full h-11 bg-indigo-900 border-b border-vanilla-100/25 px-3 text-sm text-vanilla-50 focus:border-gold-400 outline-none transition-colors"
+                  >
+                    <option value="Security Guard">Security Guard</option>
+                    <option value="Armed Security Guard">
+                      Armed Security Guard
+                    </option>
+                    <option value="Head Guard / Officer">
+                      Head Guard / Officer
+                    </option>
+                    <option value="Field Supervisor">Field Supervisor</option>
+                  </select>
                 </div>
-                <h4 className="font-display text-lg font-semibold text-vanilla-100">
-                  Application Received
-                </h4>
-                <p className="text-sm text-indigo-200 mt-2 max-w-sm leading-relaxed">
-                  Our recruitment officer will contact you for document and
-                  physical verification at {SITE_CONFIG.address.line1},{" "}
-                  {SITE_CONFIG.address.city}. You can also call{" "}
-                  <strong className="text-vanilla-100 tabular-nums">
-                    {SITE_CONFIG.contact.primaryPhoneDisplay}
-                  </strong>
-                  .
-                </p>
-                <button
-                  type="button"
-                  onClick={() => setSubmitted(false)}
-                  className="mt-6 h-10 px-5 rounded-lg bg-vanilla-100 text-indigo-800 text-xs font-semibold cursor-pointer"
-                >
-                  Submit Another Application
-                </button>
+                <div>
+                  <label htmlFor="career-ex" className="block font-mono text-[11px] uppercase tracking-wider text-gold-300 mb-1.5">
+                    Ex-Serviceman
+                  </label>
+                  <select
+                    id="career-ex"
+                    value={formData.exServiceman}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        exServiceman: e.target.value,
+                      })
+                    }
+                    className="w-full h-11 bg-indigo-900 border-b border-vanilla-100/25 px-3 text-sm text-vanilla-50 focus:border-gold-400 outline-none transition-colors"
+                  >
+                    <option value="No (Civilian)">No (Civilian)</option>
+                    <option value="Yes (Ex-Defence / CAPF)">
+                      Yes (Ex-Defence / CAPF)
+                    </option>
+                  </select>
+                </div>
               </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label
-                      htmlFor="career-name"
-                      className="block text-xs font-medium text-indigo-200 mb-1.5"
-                    >
-                      Full Name *
-                    </label>
-                    <input
-                      id="career-name"
-                      type="text"
-                      required
-                      placeholder="Candidate full name"
-                      value={formData.name}
-                      onChange={(e) =>
-                        setFormData({ ...formData, name: e.target.value })
-                      }
-                      className="w-full h-11 bg-indigo-950 border border-vanilla-100/15 rounded-lg px-3.5 text-sm text-vanilla-100 placeholder-indigo-400 focus:outline-none focus:border-vanilla-100"
-                    />
-                  </div>
 
-                  <div>
-                    <label
-                      htmlFor="career-phone"
-                      className="block text-xs font-medium text-indigo-200 mb-1.5"
-                    >
-                      Mobile Number *
-                    </label>
-                    <input
-                      id="career-phone"
-                      type="tel"
-                      required
-                      placeholder="+91 mobile number"
-                      value={formData.phone}
-                      onChange={(e) =>
-                        setFormData({ ...formData, phone: e.target.value })
-                      }
-                      className="w-full h-11 bg-indigo-950 border border-vanilla-100/15 rounded-lg px-3.5 text-sm text-vanilla-100 placeholder-indigo-400 focus:outline-none focus:border-vanilla-100"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label
-                      htmlFor="career-age"
-                      className="block text-xs font-medium text-indigo-200 mb-1.5"
-                    >
-                      Age *
-                    </label>
-                    <input
-                      id="career-age"
-                      type="number"
-                      min="18"
-                      max="60"
-                      required
-                      placeholder="28"
-                      value={formData.age}
-                      onChange={(e) =>
-                        setFormData({ ...formData, age: e.target.value })
-                      }
-                      className="w-full h-11 bg-indigo-950 border border-vanilla-100/15 rounded-lg px-3.5 text-sm text-vanilla-100 placeholder-indigo-400 focus:outline-none focus:border-vanilla-100"
-                    />
-                  </div>
-
-                  <div>
-                    <label
-                      htmlFor="career-city"
-                      className="block text-xs font-medium text-indigo-200 mb-1.5"
-                    >
-                      Current City *
-                    </label>
-                    <input
-                      id="career-city"
-                      type="text"
-                      required
-                      placeholder="Tiruppur"
-                      value={formData.location}
-                      onChange={(e) =>
-                        setFormData({ ...formData, location: e.target.value })
-                      }
-                      className="w-full h-11 bg-indigo-950 border border-vanilla-100/15 rounded-lg px-3.5 text-sm text-vanilla-100 placeholder-indigo-400 focus:outline-none focus:border-vanilla-100"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label
-                      htmlFor="career-role"
-                      className="block text-xs font-medium text-indigo-200 mb-1.5"
-                    >
-                      Preferred Role
-                    </label>
-                    <select
-                      id="career-role"
-                      value={formData.role}
-                      onChange={(e) =>
-                        setFormData({ ...formData, role: e.target.value })
-                      }
-                      className="w-full h-11 bg-indigo-950 border border-vanilla-100/15 rounded-lg px-3.5 text-sm text-vanilla-100 focus:outline-none focus:border-vanilla-100"
-                    >
-                      <option value="Security Guard">Security Guard</option>
-                      <option value="Armed Guard">Armed Guard</option>
-                      <option value="Head Guard / Supervisor">
-                        Head Guard / Supervisor
-                      </option>
-                      <option value="Security Officer">Security Officer</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label
-                      htmlFor="career-exserviceman"
-                      className="block text-xs font-medium text-indigo-200 mb-1.5"
-                    >
-                      Ex-Serviceman
-                    </label>
-                    <select
-                      id="career-exserviceman"
-                      value={formData.isExServiceman}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          isExServiceman: e.target.value,
-                        })
-                      }
-                      className="w-full h-11 bg-indigo-950 border border-vanilla-100/15 rounded-lg px-3.5 text-sm text-vanilla-100 focus:outline-none focus:border-vanilla-100"
-                    >
-                      <option value="No">No (Civilian)</option>
-                      <option value="Yes">Yes (Armed Forces / Police)</option>
-                    </select>
-                  </div>
-                </div>
-
-                <motion.button
-                  type="submit"
-                  disabled={loading}
-                  whileTap={{ scale: 0.985 }}
-                  transition={{ duration: 0.14, ease: EDITORIAL_EASE }}
-                  className="w-full h-12 rounded-lg bg-vanilla-100 hover:bg-vanilla-50 text-indigo-800 font-semibold text-sm flex items-center justify-center gap-2 transition-colors duration-150 disabled:opacity-50 cursor-pointer mt-2"
-                >
-                  {loading ? (
-                    <span>Submitting...</span>
-                  ) : (
-                    <>
-                      <Send className="w-4 h-4" strokeWidth={1.5} aria-hidden="true" />
-                      <span>Submit Application</span>
-                    </>
-                  )}
-                </motion.button>
-              </form>
-            )}
-          </RevealBlock>
-        </div>
+              <button
+                type="submit"
+                className="relative overflow-hidden shimmer-on-hover h-12 px-8 rounded-xl bg-gold-400 hover:bg-gold-300 text-indigo-950 font-bold text-sm inline-flex items-center gap-2 transition-colors duration-150 cursor-pointer"
+              >
+                <Send className="w-4 h-4" strokeWidth={1.8} aria-hidden="true" />
+                <span>Submit Application</span>
+              </button>
+            </form>
+          )}
+        </RevealBlock>
       </div>
     </section>
   );

@@ -5,11 +5,13 @@
 :root {
   --midnight-indigo: #282B4A;
   --midnight-deep: #17192D;
-  --midnight-surface: #1F223B;
+  --midnight-surface: #1E213C;
   --midnight-raised: #32365B;
   --vanilla: #EEEBDA;
   --vanilla-raised: #F7F5EC;
   --vanilla-muted: #E4E0CC;
+  --sovereign-gold: #E2B45A;
+  --spotlight-tint: rgba(226, 180, 90, 0.14);
 }
 
 * {
@@ -18,6 +20,7 @@
 
 html {
   scroll-behavior: smooth;
+  color-scheme: dark;
 }
 
 body {
@@ -34,9 +37,8 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
-/* Accessible Focus Rings */
 :focus-visible {
-  outline: 2px solid var(--vanilla);
+  outline: 2px solid var(--sovereign-gold);
   outline-offset: 2px;
 }
 
@@ -45,7 +47,7 @@ body {
   outline-offset: 2px;
 }
 
-/* Custom Minimal Scrollbar */
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -55,36 +57,103 @@ body {
 }
 ::-webkit-scrollbar-thumb {
   background: #404571;
-  border-radius: 4px;
+  border-radius: 999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #6E74A3;
+  background: #6e74a3;
 }
 
-/* Quiet Hero Scrim Masking for seamless Midnight Indigo blend */
-.hero-indigo-scrim {
+/* ============================================================================
+   MIDNIGHT INDIGO (#282B4A) & VANILLA (#EEEBDA) FROSTED GLASSMORPHISM SYSTEM
+   ============================================================================ */
+
+.glass-indigo {
+  background: rgba(23, 25, 45, 0.48);
+  backdrop-filter: blur(20px) saturate(145%);
+  -webkit-backdrop-filter: blur(20px) saturate(145%);
+  border: 1px solid rgba(238, 235, 218, 0.16);
+  box-shadow:
+    inset 0 1px 0 rgba(238, 235, 218, 0.2),
+    0 24px 52px -20px rgba(10, 12, 26, 0.68);
+}
+
+.glass-indigo-soft {
+  background: rgba(238, 235, 218, 0.065);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid rgba(238, 235, 218, 0.15);
+  box-shadow:
+    inset 0 1px 0 rgba(238, 235, 218, 0.18),
+    0 16px 36px -18px rgba(10, 12, 26, 0.48);
+}
+
+.glass-vanilla {
+  background: rgba(247, 245, 236, 0.58);
+  backdrop-filter: blur(18px) saturate(135%);
+  -webkit-backdrop-filter: blur(18px) saturate(135%);
+  border: 1px solid rgba(40, 43, 74, 0.13);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    0 20px 44px -22px rgba(40, 43, 74, 0.16);
+}
+
+.glass-vanilla-active {
+  background: rgba(40, 43, 74, 0.90);
+  backdrop-filter: blur(20px) saturate(145%);
+  -webkit-backdrop-filter: blur(20px) saturate(145%);
+  border: 1px solid rgba(226, 180, 90, 0.34);
+  box-shadow:
+    inset 0 1px 0 rgba(238, 235, 218, 0.2),
+    0 24px 48px -18px rgba(23, 25, 45, 0.45);
+}
+
+.indigo-grid-bg {
+  background-image:
+    linear-gradient(to right, rgba(238, 235, 218, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(238, 235, 218, 0.045) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+.vanilla-grid-bg {
+  background-image:
+    linear-gradient(to right, rgba(40, 43, 74, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(40, 43, 74, 0.05) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+@keyframes shimmer-sweep {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(220%);
+  }
+}
+
+.shimmer-on-hover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 45%;
   background: linear-gradient(
     90deg,
-    #282B4A 0%,
-    rgba(40, 43, 74, 0.94) 44%,
-    rgba(40, 43, 74, 0.72) 72%,
-    rgba(40, 43, 74, 0.35) 100%
+    transparent,
+    rgba(255, 255, 255, 0.18),
+    transparent
   );
+  transform: translateX(-120%);
+  pointer-events: none;
 }
 
-.hero-indigo-bottom {
-  background: linear-gradient(180deg, transparent 30%, #282B4A 100%);
+.shimmer-on-hover:hover::after {
+  animation: shimmer-sweep 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-/* Subtle dot pattern for the architectural command surface (no neon, low opacity) */
-.indigo-grid-surface {
-  background-image: radial-gradient(circle at 1px 1px, rgba(238, 235, 218, 0.08) 1px, transparent 0);
-  background-size: 32px 32px;
-}
-
-/* Respect reduced motion preferences */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+  .shimmer-on-hover:hover::after {
+    animation: none;
   }
 }
